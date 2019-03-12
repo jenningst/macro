@@ -1,0 +1,115 @@
+import React, { useState } from 'react';
+
+function CreateFood() {
+  const [ name, setName ] = useState('');
+  const [ brand, setBrand ] = useState('');
+  const [ servingSize, setServingSize ] = useState('');
+  const [ protein, setProtein ] = useState(0);
+  const [ carbohydrate, setCarbohydrate ] = useState(0);
+  const [ fat, setFat ] = useState(0);
+  const [ calorie, setCalorie ] = useState(0);
+
+  function handleInputChange(e) {
+    switch(e.target.name) {
+      case 'name':
+        setName(e.target.value);
+        break;
+      case 'brand':
+      setBrand(e.target.value);
+        break;
+      case 'servingSize':
+        setServingSize(e.target.value);
+        break;
+      case 'protein':
+        setProtein(e.target.value);
+        break;
+      case 'carbohydrate':
+        setCarbohydrate(e.target.value);
+        break;
+      case 'fat':
+        setFat(e.target.value);
+        break;
+      case 'calorie':
+        setCalorie(e.target.value);
+        break;
+      default:
+        return;
+    }
+  }
+
+  function clearInputs() {
+    setName('');
+    setBrand('');
+    setServingSize('');
+    setProtein(0);
+    setCarbohydrate(0);
+    setFat(0);
+    setCalorie(0);
+  }
+
+  function addFoodToPantry() {
+    // TODO: exec GraphQL createFood mutation
+    alert('clicked Add Food!');
+  }
+
+  return (
+    <div className="create-food">
+      <form>
+        <input
+          type="text"
+          name="name"
+          value={name}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="brand"
+          value={brand}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="servingSize"
+          value={servingSize}
+          onChange={handleInputChange}
+        />
+        <input
+          type="number"
+          name="protein"
+          value={protein}
+          onChange={handleInputChange}
+        />
+        <input
+          type="number"
+          name="carbohydrate"
+          value={carbohydrate}
+          onChange={handleInputChange}
+        />
+        <input
+          type="number"
+          name="fat"
+          value={fat}
+          onChange={handleInputChange}
+        />
+        <input
+          type="number"
+          name="calorie"
+          value={calorie}
+          onChange={handleInputChange}
+        />
+      </form>
+      <button
+        onClick={addFoodToPantry}
+      >
+        Add Food
+      </button>
+      <button
+        onClick={clearInputs}
+      >
+        Clear Inputs
+      </button>
+    </div>
+  );
+};
+
+export default CreateFood;
