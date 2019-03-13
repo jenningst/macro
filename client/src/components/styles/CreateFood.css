@@ -1,0 +1,5 @@
+.create-food-form {
+  width: 25vw;
+  display: flex;
+  flex-flow: column nowrap;
+}

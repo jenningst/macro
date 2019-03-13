@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './styles/CreateFood.css';
 
 function CreateFood() {
   const [ name, setName ] = useState('');
@@ -54,49 +55,74 @@ function CreateFood() {
 
   return (
     <div className="create-food">
-      <form>
-        <input
-          type="text"
-          name="name"
-          value={name}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="brand"
-          value={brand}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="servingSize"
-          value={servingSize}
-          onChange={handleInputChange}
-        />
-        <input
-          type="number"
-          name="protein"
-          value={protein}
-          onChange={handleInputChange}
-        />
-        <input
-          type="number"
-          name="carbohydrate"
-          value={carbohydrate}
-          onChange={handleInputChange}
-        />
-        <input
-          type="number"
-          name="fat"
-          value={fat}
-          onChange={handleInputChange}
-        />
-        <input
-          type="number"
-          name="calorie"
-          value={calorie}
-          onChange={handleInputChange}
-        />
+      <h1>Create Food Form</h1>
+      <form className="create-food-form">
+        <label>
+          Food Name:
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter Food Name"
+            value={name}
+            onChange={handleInputChange}
+          />
+        </label>
+        <label>
+          Food Brand:
+          <input
+            type="text"
+            name="brand"
+            placeholder="Enter Food Brand"
+            value={brand}
+            onChange={handleInputChange}
+          />
+        </label>
+        <label>
+          Serving Size:
+          <input
+            type="text"
+            name="servingSize"
+            placeholder="Enter Serving Size"
+            value={servingSize}
+            onChange={handleInputChange}
+          />
+        </label>
+        <label>
+          Protein:
+          <input
+            type="number"
+            name="protein"
+            value={protein}
+            onChange={handleInputChange}
+          />
+        </label>
+        <label>
+          Carbohydrates:
+          <input
+            type="number"
+            name="carbohydrate"
+            value={carbohydrate}
+            onChange={handleInputChange}
+          />
+        </label>
+        <label>
+          Fats:
+          <input
+            type="number"
+            name="fat"
+            value={fat}
+            onChange={handleInputChange}
+          />
+        </label>
+        <label>
+          Calories:
+          <input
+            type="number"
+            name="calorie"
+            value={calorie}
+            onChange={handleInputChange}
+          />
+        </label>
       </form>
       <button
         onClick={addFoodToPantry}

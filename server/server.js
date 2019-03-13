@@ -45,6 +45,5 @@ mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection 
 
 // launch express backend into a port
 app.listen(appPort, () => {
-  console.log(`App now listening on port: ${appPort}`);
   console.log(`Apollo Server listening at url: http://localhost:${appPort}/graphql`);
 });
