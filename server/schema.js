@@ -1,12 +1,7 @@
 const { gql } = require('apollo-server-express');
+const Food = require('./models/foodModel');
 
 const typeDefs = gql`
-  type Query {
-    foods: [Food]
-    food(id: ID!): Food
-    meals: [Meal]!
-    meal(id: ID!): Meal
-  }
 
   type Food {
     id: ID!
@@ -38,25 +33,24 @@ const typeDefs = gql`
     SECONDARY
   }
 
+  input FoodInput {
+    name: String!,
+    brand: String,
+    variant: String,
+    servingUnit: String!,
+    servingSize: Int!,
+    calories: Int!,
+    carbohydrates: Int!,
+    fats: Int!,
+    proteins: Int!
+  }
+
+  type Query {
+    foods: [Food]!
+  }
+
   type Mutation {
-    createFood(foodId: ID!): FoodUpdateReponse!
-    updateFood(foodId: ID!): FoodUpdateReponse!
-    deleteFood(foodId: ID!): FoodUpdateReponse!
-    createMeal(mealId: ID!): MealUpdateReponse!
-    updateMeal(mealId: ID!): MealUpdateReponse!
-    deleteMeal(mealId: ID!): MealUpdateReponse!
-  }
-
-  type FoodUpdateReponse {
-    success: Boolean!
-    message: String
-    food: Food
-  }
-
-  type MealUpdateReponse {
-    success: Boolean!
-    message: String
-    food: Meal
+    createFood(foodInput: FoodInput!): Food
   }
 `
 

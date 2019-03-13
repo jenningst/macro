@@ -6,24 +6,26 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const { ApolloServer } = require('apollo-server-express');
 
-const config = require('./config');
+const configurations = require('./config');
 const typeDefs = require('./schema');
-const resolvers = require('./resolvers');
+const resolvers = require('./resolvers/resolvers');
 
 // mlab setup; read config and create connection string
-const { db: { host: dbHost, port: dbPort, name: dbName }} = config;
-const { app: { port: appPort }} = config; 
+const environment = process.env.NODE_ENV || 'production';
+const config = configurations[environment];
+const { database: { host: dbHost, port: dbPort, name: dbName }} = config;
+const { port: appPort } = config; 
 const connectionString = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${dbHost}:${dbPort}/${dbName}`;
 
 // setup express app
 const app = express();
 
 // setup apollo server
-const server = new ApolloServer({ typeDefs, resolvers });
+const apollo = new ApolloServer({ typeDefs, resolvers });
 
 // opt-in middleware; in this case, express itself
 // this is how we use Apollo and express together
-server.applyMiddleware({ app, path: '/graphql'});
+apollo.applyMiddleware({ app, path: '/graphql'});
 
 // allow cross-origin requests
 app.use(cors());
