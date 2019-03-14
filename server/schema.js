@@ -1,8 +1,6 @@
 const { gql } = require('apollo-server-express');
-const Food = require('./models/foodModel');
 
 const typeDefs = gql`
-
   type Food {
     id: ID!
     name: String
@@ -45,12 +43,27 @@ const typeDefs = gql`
     proteins: Int!
   }
 
+  input FoodUpdateInput {
+    id: String!
+    name: String,
+    brand: String,
+    variant: String,
+    servingUnit: String,
+    servingSize: Int,
+    calories: Int,
+    carbohydrates: Int,
+    fats: Int,
+    proteins: Int
+  }
+
   type Query {
     foods: [Food]!
+    food(id: ID!): Food
   }
 
   type Mutation {
     createFood(foodInput: FoodInput!): Food
+    updateFood(foodInput: FoodUpdateInput!): Food!
   }
 `
 
