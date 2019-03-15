@@ -8,6 +8,23 @@ const typeDefs = gql`
     variant: String
     servingUnit: String
     servingSize: Int
+    revisions: [FoodRevision!]!
+  }
+
+  type FoodRevision {
+    id: ID!
+    revisionNumber: Int!
+    calories: Int
+    carbohydrates: Int
+    fats: Int
+    proteins: Int
+  }
+
+  type Serving {
+    id: ID!
+    revisionId: String!
+    mealId: String!
+    servings: Float!
     calories: Int
     carbohydrates: Int
     fats: Int
@@ -18,7 +35,7 @@ const typeDefs = gql`
     id: ID!
     name: String
     mealType: MEALTYPE!
-    foods: [Food]!
+    servings: [Serving]!
   }
 
   type User {
@@ -31,25 +48,22 @@ const typeDefs = gql`
     SECONDARY
   }
 
-  input FoodInput {
-    name: String!,
-    brand: String,
-    variant: String,
-    servingUnit: String!,
-    servingSize: Int!,
-    calories: Int!,
-    carbohydrates: Int!,
-    fats: Int!,
-    proteins: Int!
+  enum SERVINGUNIT {
+    GRAM
+    OUNCE
+    CUP
   }
 
-  input FoodUpdateInput {
-    id: String!
+  input FoodInput {
     name: String,
     brand: String,
     variant: String,
     servingUnit: String,
     servingSize: Int,
+  }
+
+  input FoodRevisionInput {
+    revisionId: Int,
     calories: Int,
     carbohydrates: Int,
     fats: Int,
@@ -59,11 +73,13 @@ const typeDefs = gql`
   type Query {
     foods: [Food]!
     food(id: ID!): Food
+    meal(id: ID!): Meal
   }
 
   type Mutation {
-    createFood(foodInput: FoodInput!): Food
-    updateFood(foodInput: FoodUpdateInput!): Food!
+    createFood(foodInput: FoodInput!, revisionInput: FoodRevisionInput): Food
+    updateFood(id: String, foodInput: FoodInput!): Food!
+    createMeal(name: String!, mealType: MEALTYPE!, foods: [FoodInput]): Meal
   }
 `
 

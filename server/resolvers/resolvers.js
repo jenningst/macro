@@ -1,5 +1,5 @@
-// TODO: Add resolvers
-const Food = require('../models/foodModel');
+// TODO: import Meal model
+const Food = require('../models/food');
 
 const resolvers = {
   // resolve Query and everything defined therein
@@ -18,27 +18,34 @@ const resolvers = {
         return food;
       }
       return null;
-    }
+    },
+    // graphql: resolve the meal query
+    // meal: async(parent, args, context) => {
+    //   const meal = await 
+    // }
   },
   Mutation: {
     // graphql: resolve createFood mutation
-    createFood: async (parent, { foodInput }, context) => {
+    createFood: async function(parent, { foodInput, revisionInput }, context) {
       // mongoose: check for existing food
       const food = await Food.find({ name: foodInput.name });
       if (food && food.length > 1) {
         throw new Error('Please provide a unique food name!');
       }
-      // mongoose: create a new instance of Food
+      // mongoose: create a new instance of Food and FoodRevision
       const newFood = new Food({
         name: foodInput.name,
         brand: foodInput.brand,
         variant: foodInput.variant,
         servingUnit: foodInput.servingUnit,
         servingSize: foodInput.servingSize,
-        calories: foodInput.calories,
-        carbohydrates: foodInput.carbohydrates,
-        fats: foodInput.fats,
-        proteins: foodInput.proteins,
+        revisions: [{
+          revisionNumber: 1,
+          calories: revisionInput.calories,
+          carbohydrates: revisionInput.carbohydrates,
+          fats: revisionInput.fats,
+          proteins: revisionInput.proteins,
+        }],
       });
       // mongoose: try and save the food
       let response;
@@ -54,11 +61,11 @@ const resolvers = {
       return null;
     },
     // graphql: resolve updateFood mutation
-    updateFood: async (parent, { foodInput }, context) => {
+    updateFood: async (parent, { id, foodInput }, context) => {
       // mongoose: check for existing food
-      let existingFood = await Food.findById(foodInput.id);
+      let existingFood = await Food.findById(id);
       if (!existingFood) {
-        throw new Error(`Failed to find food with id: ${foodInput.id}!`);
+        throw new Error(`Failed to find food with id: ${id}!`);
       }
       // mongoose: update any values
         existingFood.name = foodInput.name || existingFood.name,

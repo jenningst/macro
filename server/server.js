@@ -7,7 +7,7 @@ const logger = require('morgan');
 const { ApolloServer } = require('apollo-server-express');
 
 const configurations = require('./config');
-const typeDefs = require('./schema');
+const typeDefs = require('./schemas/schema');
 const resolvers = require('./resolvers/resolvers');
 
 // mlab setup; read config and create connection string

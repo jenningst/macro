@@ -1,13 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// define our food schema type definition
-const foodSchema = new Schema({
-  name: String,
-  brand: String,
-  variant: String,
-  servingUnit: String,
-  servingSize: Number,
+// define our serving schema
+const servingSchema = new Schema({
+  revisionId: Number,
+  mealId: String,
+  servings: Number,
   calories: Number,
   carbohydrates: Number,
   fats: Number,
