@@ -13,4 +13,4 @@ const servingSchema = new Schema({
 });
 
 // compile schema into a mongoose model and export
-module.exports = mongoose.model('Food', foodSchema);
+module.exports = mongoose.model('Serving', servingSchema);
