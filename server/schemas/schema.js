@@ -133,7 +133,6 @@ const typeDefs = gql`
   type Mutation {
     createFood(input: CreateFoodInput!): CreateFoodPayload!
     updateFood(input: UpdateFoodInput!): UpdateFoodPayload!
-    # updateFood(id: String!, foodInput: FoodInput!, revisionInput: FoodRevisionInput): Food!
     createMeal(mealInput: MealInput!): Meal!
     updateMeal(id: String!, mealInput: MealInput!): Meal!
   }

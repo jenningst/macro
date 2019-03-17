@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+// import { Query } from 'react-apollo';
+// import gql from 'graphql';
 import './styles/CreateFood.css';
 
-function CreateFood() {
+const CreateFood = () => {
   const [ name, setName ] = useState('');
   const [ brand, setBrand ] = useState('');
   const [ servingSize, setServingSize ] = useState('');

@@ -1,0 +1,27 @@
+.food-item {
+  display: grid;
+  grid-template-columns: 1fr 25%;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: 
+    "header aside"
+    "footer aside";
+}
+
+.food-item + .food-item {
+  margin-top: 1rem;
+}
+
+header {
+  grid-area: header;
+  background: lightblue;
+}
+
+footer {
+  grid-area: footer;
+  background: lightcoral;
+}
+
+aside {
+  grid-area: aside;
+  background: lightgoldenrodyellow;
+}
