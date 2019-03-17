@@ -11,8 +11,10 @@ function hasObjectChanged(base, input) {
   for (var i = 0; i < inputProps.length; i++) {
     let propName = inputProps[i];
     // check to see if values of the same prop are equal
-    if(input[propName] !== base[propName]) {
-      return true;
+    if(input[propName] !== undefined) {
+      if(input[propName] !== base[propName]) {
+        return true;
+      }
     }
   }
   return false;

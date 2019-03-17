@@ -1,9 +1,20 @@
 const { gql } = require('apollo-server-express');
 
+/**
+*  Schema Design:
+*  Naming: Name the mutations verbs
+*  Specificity: Make mutations specific
+*  Input Object: Use a single, required, unique input.
+*  Unique Payload: Use a unique payload for each mutation.
+*  Nesting: Use nesting to your advantage.
+**/
+
 const typeDefs = gql`
+  
+  ## Base Type Definitions
   type Food {
     id: ID!
-    name: String
+    name: String!
     brand: String
     variant: String
     servingUnit: String
@@ -20,6 +31,21 @@ const typeDefs = gql`
     proteins: Int
   }
 
+  type Meal {
+    id: ID
+    name: String
+    position: Int
+  }
+
+  scalar Date
+
+  # type MealInstance {
+  #   id: ID!
+  #   mealName: String
+  #   position: Int
+  #   date: Date
+  # }
+
   type Serving {
     id: ID!
     revisionId: String!
@@ -31,55 +57,85 @@ const typeDefs = gql`
     proteins: Int
   }
 
-  type Meal {
-    id: ID!
+  ## Input Type Definitions
+  # input FoodInput {
+  #   name: String
+  #   brand: String
+  #   variant: String
+  #   servingUnit: String
+  #   servingSize: Int
+  # }
+
+  # input FoodRevisionInput {
+  #   revisionId: Int
+  #   calories: Int
+  #   carbohydrates: Int
+  #   fats: Int
+  #   proteins: Int
+  # }
+
+  input CreateFoodInput {
+    name: String!
+    brand: String
+    variant: String
+    servingUnit: String!
+    servingSize: Int!
+    revisionId: Int
+    calories: Int!
+    carbohydrates: Int!
+    fats: Int!
+    proteins: Int!
+  }
+
+  input UpdateFoodInput {
+    id: String!
     name: String
-    mealType: MEALTYPE!
-    servings: [Serving]!
-  }
-
-  type User {
-    id: ID!
-    email: String!
-  }
-
-  enum MEALTYPE {
-    PRIMARY
-    SECONDARY
-  }
-
-  enum SERVINGUNIT {
-    GRAM
-    OUNCE
-    CUP
-  }
-
-  input FoodInput {
-    name: String,
-    brand: String,
-    variant: String,
-    servingUnit: String,
-    servingSize: Int,
-  }
-
-  input FoodRevisionInput {
-    revisionId: Int,
-    calories: Int,
-    carbohydrates: Int,
-    fats: Int,
+    brand: String
+    variant: String
+    servingUnit: String
+    servingSize: Int
+    # revisionId: Int
+    calories: Int
+    carbohydrates: Int
+    fats: Int
     proteins: Int
   }
 
+  input MealInput {
+    name: String
+    position: Int
+  }
+
+  ## Payload Definitions
+  type ErrorPayload {
+    message: String
+    # ... other things as needed
+  }
+
+  type CreateFoodPayload {
+    food: Food
+    error: ErrorPayload
+  }
+
+  type UpdateFoodPayload {
+    food: Food
+    error: ErrorPayload
+  }
+
   type Query {
-    foods: [Food]!
+    date: Date
     food(id: ID!): Food
-    meal(id: ID!): Meal
+    foods: [Food]!
+    meal(name: String!): Meal
+    meals: [Meal]!
   }
 
   type Mutation {
-    createFood(foodInput: FoodInput!, revisionInput: FoodRevisionInput): Food
-    updateFood(id: String, foodInput: FoodInput!, revisionInput: FoodRevisionInput): Food!
-    createMeal(name: String!, mealType: MEALTYPE!, foods: [FoodInput]): Meal
+    createFood(input: CreateFoodInput!): CreateFoodPayload!
+    updateFood(input: UpdateFoodInput!): UpdateFoodPayload!
+    # updateFood(id: String!, foodInput: FoodInput!, revisionInput: FoodRevisionInput): Food!
+    createMeal(mealInput: MealInput!): Meal!
+    updateMeal(id: String!, mealInput: MealInput!): Meal!
   }
 `
 

@@ -1,125 +1,178 @@
 const Food = require('../models/food');
 const Meal = require('../models/meal');
-const Serving = require('../models/serving');
 const { hasObjectChanged } = require('../utilities/helpers');
 
 const resolvers = {
   // resolve Query and everything defined therein
   Query: {
     // graphql: resolve the foods query
-    foods: async function(parent, args, context) {
+    foods: async () => {
       const foods = await Food.find({});
-      // console.log(foods);
+      if (!foods) {
+        // TODO: Add custom error handling
+        throw new Error('No foods found!');
+      }
       return foods;
     },
     // graphql: resolve the food query
-    food: async function(parent, args, context) {
-      const food = await Food.findById(args.id);
-      if (food) {
-        return food;
+    food: async (parent, { id }) => {
+      const food = await Food.findById(id);
+      if (!food) {
+        // TODO: Add custom error handling
+        throw new Error('No Food found!');
       }
-      return null;
+      return food;
     },
     // graphql: resolve the meal query
-    // meal: async(parent, args, context) => {
-    //   const meal = await 
-    // }
+    meal: async (parent, { name }) => {
+      const meal = await Meal.findOne({ name: name });
+      if (!meal) {
+        // TODO: Add custom error handling
+        throw new Error('No meal found!');
+      }
+      return meal;
+    },
+    // graphql: resolve the meal query
+    meals: async () => {
+      const meals = await Meal.find({});
+      if (!meals) {
+        // TODO: Add custom error handling
+        throw new Error('No meals found!');
+      }
+      return meals;
+    },
+    // graphql: resolve the date query
+    date: async () => {
+      return new Date();
+    }
   },
   Mutation: {
     // graphql: resolve createFood mutation
-    createFood: async function(parent, { foodInput, revisionInput }, context) {
+    createFood: async (parent, { input }) => {
       // mongoose: check for existing food
-      const food = await Food.find({ name: foodInput.name });
+      const food = await Food.find({ name: input.name });
       if (food && food.length > 1) {
         throw new Error('Please provide a unique food name!');
       }
       // mongoose: create a new instance of Food and FoodRevision
       const newFood = new Food({
-        name: foodInput.name,
-        brand: foodInput.brand,
-        variant: foodInput.variant,
-        servingUnit: foodInput.servingUnit,
-        servingSize: foodInput.servingSize,
+        name: input.name,
+        brand: input.brand,
+        variant: input.variant,
+        servingUnit: input.servingUnit,
+        servingSize: input.servingSize,
         revisions: [{
           revisionNumber: 1,
-          calories: revisionInput.calories,
-          carbohydrates: revisionInput.carbohydrates,
-          fats: revisionInput.fats,
-          proteins: revisionInput.proteins,
+          calories: input.calories,
+          carbohydrates: input.carbohydrates,
+          fats: input.fats,
+          proteins: input.proteins,
         }],
       });
-      // mongoose: try and save the food
-      let response;
-      try {
-        response = await newFood.save();
-      } catch (e) {
-        throw new Error(`Failed to create food with error: ${e}`);
+      // prepare our response payload
+      let response = {
+        food: null,
+        error: {},
+      };
+      // mongoose: save the food and format the response
+      const updatedFood = await newFood.save(); 
+      if (!updatedFood) {
+        response.error = {
+          message: `Failed to create food with error: ${e}`
+        };
       }
-      // graphql: return the food (success) or null (error)
-      if (response) {
-        return response;
-      }
-      return null;
+      response.food = updatedFood;
+      response.error = {};
+      return response;
     },
     // graphql: resolve updateFood mutation
-    updateFood: async function(parent, { id, foodInput, revisionInput }, context) {
+    updateFood: async (parent, { input }) => {
       // mongoose: check for existing food
-      let existingFood = await Food.findById(id);
+      let existingFood = await Food.findById(input.id);
       if (!existingFood) {
-        throw new Error(`Failed to find food with id: ${id}!`);
+        throw new Error(`Failed to find food with id: ${input.id}!`);
       }
-      const lastFood = {
-        name: existingFood.name,
-        brand: existingFood.brand,
-        variant: existingFood.variant,
-        servingUnit: existingFood.servingUnit,
-        servingSize: existingFood.servingSize,
-      };
-      // mongoose: if any food info has changed, update food; if not, save a db call
-      if(hasObjectChanged(lastFood, foodInput)) {
-        // mongoose: update any Food values
-        existingFood.name = foodInput.name || existingFood.name;
-        existingFood.brand = foodInput.brand || existingFood.brand;
-        existingFood.variant = foodInput.variant || existingFood.variant;
-        existingFood.servingUnit = foodInput.servingUnit || existingFood.servingUnit;
-        existingFood.servingSize = foodInput.servingSize || existingFood.servingSize;
-      }
-
-      // mongoose: if any of the nutritional info has changed, create a new revision
-      if(revisionInput) {
-        const lastRevision = existingFood.revisions[existingFood.revisions.length - 1];
-        if(hasObjectChanged(lastRevision, revisionInput)) {
-          // mongoose: create a new revision
-          const newRevision = {
-            revisionNumber: lastRevision.revisionNumber + 1,
-            calories: revisionInput.calories || lastRevision.calories,
-            carbohydrates: revisionInput.carbohydrates || lastRevision.carbohydrates,
-            fats: revisionInput.fats || lastRevision.fats,
-            proteins: revisionInput.proteins || lastRevision.proteins,
+      // mongoose: update Food properties w/ incoming values or leave them the same
+      existingFood.name = input.name || existingFood.name;
+      existingFood.brand = input.brand || existingFood.brand;
+      existingFood.variant = input.variant || existingFood.variant;
+      existingFood.servingUnit = input.servingUnit || existingFood.servingUnit;
+      existingFood.servingSize = input.servingSize || existingFood.servingSize;
+      // mongoose: if nutritional info has changed, create a new revision
+      const lastRevision = existingFood.revisions[existingFood.revisions.length - 1];
+      // destructure any nutritional information and create a comparison object for comparing
+      const { calories, carbohydrates, fats, proteins } = input;
+      const nutritionalInformation = { calories, carbohydrates, fats, proteins };
+      if(hasObjectChanged(lastRevision, nutritionalInformation)) {
+        // mongoose: create a new revision
+        const newRevision = {
+          revisionNumber: lastRevision.revisionNumber + 1,
+          calories: input.calories || lastRevision.calories,
+          carbohydrates: input.carbohydrates || lastRevision.carbohydrates,
+          fats: input.fats || lastRevision.fats,
+          proteins: input.proteins || lastRevision.proteins,
+        };
+        // mongoose: add the revision sub-document
+        const updatedRevisions = await existingFood.revisions.push(newRevision);
+        if (!updatedRevisions) {
+          response.error = {
+            message: `Failed to add sub-document to array`,
           };
-          try {
-            await existingFood.revisions.push(newRevision);
-          } catch (e) {
-            throw new Error(`Failed to add new revision with error: ${e}`);
-          }
         }
       }
-
-      // NOTE: we need to update the parent document last!
-      // mongoose: try and save the food
-      let response;
+      // prepare our response payload
+      let response = {
+        food: null,
+        error: {},
+      };
+      // mongoose: save the food document
+      const updatedFood = await existingFood.save(); 
+      if (!updatedFood) {
+        response.error = {
+          message: `Failed to save document`,
+        };
+      }
+      response.food = updatedFood;
+      response.error = {};
+      return response;
+    },
+    // graphql: resolve createMeal mutation
+    createMeal: async (parent, { mealInput: { name, position } }) => {
+      // mongoose: check for existing meal
+      const meal = await Meal.find({ name: name });
+      if (meal && meal.length > 1) {
+        throw new Error('Please provide a unique meal name!');
+      }
+      // mongoose: create a new instance of Meal
+      const newMeal = new Meal({
+        name: name,
+        position: position || null,
+      });
+      // mongoose: save the meal
       try {
-        response = await existingFood.save();
+        return await newMeal.save();
       } catch (e) {
-        throw new Error(`Failed to update food with error: ${e}`);
+        // TODO: Add custom error handling
+        throw new Error(`Failed to create meal with error: ${e}`);
       }
-      
-      // graphql: return the food
-      if (response) {
-        return response;
+    },
+    updateMeal: async (parent, { id, mealInput: { name, position }}) => {
+      // mongoose: check for existing meal
+      let existingMeal = await Meal.findById(id);
+      if (!existingMeal) {
+        throw new Error(`Failed to find meal with id: ${id}!`);
       }
-      return null;
-    }
+      // update existing meal
+      existingMeal.name = name || existingMeal.name;
+      existingMeal.position= position || existingMeal.position;
+      // mongoose: save
+      try {
+        return await existingMeal.save();
+      } catch (e) {
+        // TODO: Add custom error handling
+        throw new Error(`Failed to create meal with error: ${e}`);
+      }
+    },
   }
 };
 
