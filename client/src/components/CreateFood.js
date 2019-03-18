@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Mutation } from "react-apollo";
+import { useMutation } from "react-apollo-hooks";
 import gql from "graphql-tag";
 import "./styles/CreateFood.css";
 
@@ -27,6 +27,7 @@ const CREATE_FOOD = gql`
 `;
 
 const CreateFood = () => {
+  // setup local state for form input
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
   const [variant, setVariant] = useState("");
@@ -37,7 +38,23 @@ const CreateFood = () => {
   const [fats, setFats] = useState(0);
   const [calories, setCalories] = useState(0);
 
-  function handleInputChange(e) {
+  const createFood = useMutation(CREATE_FOOD, {
+    variables: {
+      input: {
+        name,
+        brand,
+        variant,
+        servingUnit,
+        servingSize,
+        calories,
+        carbohydrates,
+        fats,
+        proteins
+      }
+    }
+  });
+
+  const handleInputChange = e => {
     switch (e.target.name) {
       case "name":
         setName(e.target.value);
@@ -69,9 +86,9 @@ const CreateFood = () => {
       default:
         return;
     }
-  }
+  };
 
-  function clearInputs() {
+  const clearInputs = () => {
     setName("");
     setBrand("");
     setVariant("");
@@ -80,7 +97,7 @@ const CreateFood = () => {
     setCarbohydrates(0);
     setFats(0);
     setCalories(0);
-  }
+  };
 
   return (
     <div className="create-food-form">
@@ -171,24 +188,7 @@ const CreateFood = () => {
           onChange={handleInputChange}
         />
       </label>
-      <Mutation
-        mutation={CREATE_FOOD}
-        variables={{
-          input: {
-            name,
-            brand,
-            variant,
-            servingUnit,
-            servingSize,
-            calories,
-            carbohydrates,
-            fats,
-            proteins
-          }
-        }}
-      >
-        {createFood => <button onClick={createFood}>Create Food</button>}
-      </Mutation>
+      <button onClick={createFood}>Create Food</button>
       <button onClick={clearInputs}>Clear Fields</button>
     </div>
   );
