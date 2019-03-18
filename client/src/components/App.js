@@ -6,6 +6,7 @@ import { ApolloProvider as ApolloHooksProvider } from "react-apollo-hooks";
 import "./styles/App.css";
 import CreateFood from "./CreateFood";
 import FoodList from "./FoodList";
+import MealList from "./MealList";
 
 const client = new ApolloClient({
   link: new HttpLink({ uri: "http://localhost:4000/graphql" }),
@@ -16,6 +17,7 @@ const App = () => (
   <ApolloProvider client={client}>
     <ApolloHooksProvider client={client}>
       <div className="app">
+        <MealList />
         <CreateFood />
         <FoodList />
       </div>
