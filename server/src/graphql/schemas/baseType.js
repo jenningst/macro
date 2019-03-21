@@ -2,13 +2,13 @@ const { gql } = require("apollo-server-express");
 
 const base = gql`
   type Query {
-    users: [User]!
+    users: [User!]!
     user(email: String!): User
     date: Date
     food(name: String!): Food
     foods: [Food]!
     meal(name: String!): Meal
-    meals: [Meal]!
+    meals: [Meal!]!
   }
 
   type Mutation {
@@ -21,6 +21,7 @@ const base = gql`
 
   type ErrorPayload {
     message: String
+    ## any other error fields we need
   }
 
   scalar Date

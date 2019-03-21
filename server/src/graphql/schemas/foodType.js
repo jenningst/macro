@@ -9,7 +9,7 @@ const food = gql`
     servingUnit: String
     servingSize: Int
     revisions: [FoodRevision!]!
-    creator: ID!
+    owner: User!
   }
 
   type FoodRevision {
@@ -27,7 +27,7 @@ const food = gql`
     variant: String
     servingUnit: String!
     servingSize: Int!
-    revisionId: Int
+    # revisionId: Int
     calories: Int!
     carbohydrates: Int!
     fats: Int!
@@ -42,12 +42,10 @@ const food = gql`
     variant: String
     servingUnit: String
     servingSize: Int
-    # revisionId: Int
     calories: Int
     carbohydrates: Int
     fats: Int
     proteins: Int
-    owner: String!
   }
 
   type CreateFoodPayload {

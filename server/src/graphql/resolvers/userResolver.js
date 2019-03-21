@@ -35,7 +35,10 @@ module.exports = {
       try {
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-          throw new Error(`User with email ${email} already exists.`);
+          response.error = {
+            message: `User with email ${email} already exists.`
+          };
+          return response;
         }
         // bcrypt: hash the password with 12 rounds
         try {

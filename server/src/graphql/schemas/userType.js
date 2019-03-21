@@ -2,9 +2,10 @@ const { gql } = require("apollo-server-express");
 
 const user = gql`
   type User {
-    id: ID!
+    id: String!
     email: String!
     password: String # nullable because we don't want to retrieve
+    createdFoods: [Food!]
   }
 
   input CreateUserInput {
