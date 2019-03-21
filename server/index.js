@@ -5,10 +5,11 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const { ApolloServer } = require("apollo-server-express");
+const { makeExecutableSchema } = require("graphql-tools");
 
-const configurations = require("./config");
-const typeDefs = require("./schemas/schema");
-const resolvers = require("./resolvers/resolvers");
+const configurations = require("./src/config");
+const typeDefs = require("./src/graphql/schemas");
+const resolvers = require("./src/graphql/resolvers");
 
 // mlab setup; read config and create connection string
 const environment = process.env.NODE_ENV || "production";
@@ -25,7 +26,8 @@ const connectionString = `mongodb://${process.env.DB_USER}:${
 const app = express();
 
 // setup apollo server
-const apollo = new ApolloServer({ typeDefs, resolvers });
+const schema = makeExecutableSchema({ typeDefs, resolvers });
+const apollo = new ApolloServer({ schema });
 
 // opt-in middleware; in this case, express itself
 // this is how we use Apollo and express together

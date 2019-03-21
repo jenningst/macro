@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MealItem from "./MealItem";
 
 // TODO: graphql createMeal mutation

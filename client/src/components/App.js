@@ -2,7 +2,6 @@ import React from "react";
 import { ApolloProvider } from "react-apollo";
 import { ApolloClient, HttpLink } from "apollo-boost";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import { ApolloProvider as ApolloHooksProvider } from "react-apollo-hooks";
 import "./styles/App.css";
 import CreateFood from "./CreateFood";
 import FoodList from "./FoodList";
@@ -15,13 +14,11 @@ const client = new ApolloClient({
 
 const App = () => (
   <ApolloProvider client={client}>
-    <ApolloHooksProvider client={client}>
-      <div className="app">
-        <MealList />
-        <CreateFood />
-        <FoodList />
-      </div>
-    </ApolloHooksProvider>
+    <div className="app">
+      <MealList />
+      <CreateFood />
+      <FoodList />
+    </div>
   </ApolloProvider>
 );
 

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // define our serving schema
@@ -9,8 +9,8 @@ const servingSchema = new Schema({
   calories: Number,
   carbohydrates: Number,
   fats: Number,
-  proteins: Number,
+  proteins: Number
 });
 
 // compile schema into a mongoose model and export
-module.exports = mongoose.model('Serving', servingSchema);
+module.exports = mongoose.model("Serving", servingSchema);

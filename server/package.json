@@ -11,11 +11,13 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server-express": "^2.4.8",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "graphql": "^14.1.1",
+    "merge-graphql-schemas": "^1.5.8",
     "mongoose": "^5.4.19",
     "morgan": "^1.9.1"
   }

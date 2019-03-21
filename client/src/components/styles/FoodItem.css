@@ -1,14 +1,31 @@
 .food-item {
   display: grid;
   grid-template-columns: 1fr 25%;
-  grid-template-rows: 1fr 1fr;
-  grid-template-areas: 
+  grid-template-rows: repeat(2, 2rem);
+  grid-template-areas:
     "header aside"
     "footer aside";
+  width: 300px;
 }
 
 .food-item + .food-item {
   margin-top: 1rem;
+}
+
+header > p {
+  font-size: 0.75rem;
+  margin: 0;
+  padding: 0;
+}
+footer > p {
+  font-size: 0.75rem;
+  margin: 0;
+  padding: 0;
+}
+aside > p {
+  font-size: 0.75rem;
+  margin: 0;
+  padding: 0;
 }
 
 header {
