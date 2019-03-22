@@ -17,6 +17,7 @@ const base = gql`
     updateFood(input: UpdateFoodInput!): UpdateFoodPayload!
     createMeal(input: CreateMealInput!): CreateMealPayload!
     updateMeal(input: UpdateMealInput!): UpdateMealPayload!
+    deleteMeal(id: String!): DeleteMealPayload!
   }
 
   type ErrorPayload {

@@ -53,9 +53,7 @@ module.exports = {
         });
         // mongoose: save the meal and format the response
         try {
-          const updatedMeal = await newMeal.save();
-          response.meal = updatedMeal;
-          response.error = {};
+          response.meal = await newMeal.save();
         } catch (error) {
           response.error = {
             message: `Failed to create food with error: ${error}`
@@ -90,16 +88,31 @@ module.exports = {
         existingMeal.position = position || existingMeal.position;
         // mongoose: save
         try {
-          let updatedMeal = await existingMeal.save();
-          response.meal = updatedMeal;
-          response.error = {};
+          response.meal = await existingMeal.save();
         } catch (error) {
           response.error = {
             message: `Failed to update meal: ${error}`
           };
         }
       } catch (error) {
-        response.error = { message: `Error during findById: ${error}` };
+        response.error = {
+          message: `Error during findById: ${error}`
+        };
+      }
+      // return
+      return response;
+    },
+    deleteMeal: async function(parent, { id }, context) {
+      // prepare our response payload
+      let response = {
+        success: null,
+        error: {}
+      };
+      // mongoose: check for existing meal
+      try {
+        response.meal = await Meal.findByIdAndDelete({ _id: id });
+      } catch (error) {
+        response.error = { message: `Error during find: ${error}` };
       }
       // return
       return response;

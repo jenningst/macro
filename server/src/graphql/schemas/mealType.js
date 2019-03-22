@@ -21,12 +21,21 @@ const meal = gql`
     owner: String!
   }
 
+  input DeleteMealInput {
+    id: String!
+  }
+
   type CreateMealPayload {
     meal: Meal
     error: ErrorPayload
   }
 
   type UpdateMealPayload {
+    meal: Meal
+    error: ErrorPayload
+  }
+
+  type DeleteMealPayload {
     meal: Meal
     error: ErrorPayload
   }

@@ -6,7 +6,6 @@ const user = gql`
     email: String!
     password: String # nullable because we don't want to retrieve
     createdFoods: [Food!]
-    createdMeals: [Meal!]
   }
 
   input CreateUserInput {
