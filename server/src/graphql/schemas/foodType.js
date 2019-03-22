@@ -47,6 +47,10 @@ const food = gql`
     proteins: Int
   }
 
+  type DeleteFoodInput {
+    id: String!
+  }
+
   type CreateFoodPayload {
     food: Food
     error: ErrorPayload
@@ -57,8 +61,8 @@ const food = gql`
     error: ErrorPayload
   }
 
-  type CreateUserPayload {
-    user: User
+  type DeleteFoodPayload {
+    food: Food
     error: ErrorPayload
   }
 `;

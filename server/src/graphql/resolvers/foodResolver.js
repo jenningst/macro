@@ -20,7 +20,6 @@ module.exports = {
       try {
         // mongoose: get food and populate the owner field
         const foods = await Food.find({}).populate("owner");
-        console.log(foods);
         if (foods.length > 0) {
           return foods;
         }
@@ -162,6 +161,21 @@ module.exports = {
       } catch (error) {
         response.error = { message: `Error during Food.findById(): ${error}` };
       }
+      return response;
+    },
+    deleteFood: async function(parent, { id }, context) {
+      // prepare our response payload
+      let response = {
+        food: null,
+        error: {}
+      };
+      // mongoose: delete food
+      try {
+        response.food = await Food.findByIdAndDelete({ _id: id });
+      } catch (error) {
+        response.error = { message: `Error during delete: ${error}` };
+      }
+      // return
       return response;
     }
   }

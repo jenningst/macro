@@ -105,14 +105,14 @@ module.exports = {
     deleteMeal: async function(parent, { id }, context) {
       // prepare our response payload
       let response = {
-        success: null,
+        meal: null,
         error: {}
       };
-      // mongoose: check for existing meal
+      // mongoose: delete meal
       try {
         response.meal = await Meal.findByIdAndDelete({ _id: id });
       } catch (error) {
-        response.error = { message: `Error during find: ${error}` };
+        response.error = { message: `Error during delete: ${error}` };
       }
       // return
       return response;

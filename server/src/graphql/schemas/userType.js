@@ -5,12 +5,17 @@ const user = gql`
     id: String!
     email: String!
     password: String # nullable because we don't want to retrieve
-    createdFoods: [Food!]
+    # createdFoods: [Food!]
   }
 
   input CreateUserInput {
     email: String!
     password: String!
+  }
+
+  type CreateUserPayload {
+    user: User
+    error: ErrorPayload
   }
 `;
 
