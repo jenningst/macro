@@ -12,16 +12,16 @@ const foodRevisionSchema = new Schema({
 
 // define our food schema
 const foodSchema = new Schema({
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  },
   name: String,
   brand: String,
   variant: String,
   servingUnit: String,
   servingSize: Number,
-  revisions: [foodRevisionSchema],
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: "User"
-  }
+  revisions: [foodRevisionSchema]
 });
 
 // compile schema into a mongoose model and export

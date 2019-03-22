@@ -7,18 +7,24 @@ module.exports = {
     food: async function(parent, { name }) {
       try {
         const food = await Food.findOne({ name });
-        food ? food : null;
+        if (food) {
+          return food;
+        }
+        return null;
       } catch (error) {
         // handle error
         throw new Error(`${error}`);
       }
     },
     foods: async function() {
-      // prepare our response payload
       try {
         // mongoose: get food and populate the owner field
         const foods = await Food.find({}).populate("owner");
-        foods ? foods : [];
+        console.log(foods);
+        if (foods.length > 0) {
+          return foods;
+        }
+        return [];
       } catch (error) {
         // handle error
         throw new Error(`${error}`);

@@ -5,6 +5,7 @@ const meal = gql`
     id: ID
     name: String
     position: Int
+    owner: User!
   }
 
   input CreateMealInput {

@@ -27,7 +27,6 @@ const food = gql`
     variant: String
     servingUnit: String!
     servingSize: Int!
-    # revisionId: Int
     calories: Int!
     carbohydrates: Int!
     fats: Int!

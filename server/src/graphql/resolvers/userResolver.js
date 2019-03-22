@@ -6,7 +6,10 @@ module.exports = {
     user: async function(parent, { email }) {
       try {
         const user = await User.findOne({ email });
-        user ? user : null;
+        if (user) {
+          return user;
+        }
+        return null;
       } catch (error) {
         // handle error
         throw new Error(`${error}`);
@@ -15,7 +18,10 @@ module.exports = {
     users: async function() {
       try {
         const users = await User.find({});
-        users ? users : [];
+        if (users) {
+          return users;
+        }
+        return [];
       } catch (error) {
         // handle error
         throw new Error(`${error}`);

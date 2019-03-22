@@ -5,7 +5,10 @@ module.exports = {
     meal: async function(parent, { name }) {
       try {
         const meal = await Meal.findOne({ name });
-        meal ? meal : null;
+        if (meal) {
+          return meal;
+        }
+        return null;
       } catch (error) {
         // handle error
         throw new Error(`${error}`);
@@ -13,8 +16,11 @@ module.exports = {
     },
     meals: async function() {
       try {
-        const meals = await Meal.find({});
-        meals ? meals : [];
+        const meals = await Meal.find({}).populate("owner");
+        if (meals) {
+          return meals;
+        }
+        return [];
       } catch (error) {
         // handle error
         throw new Error(`${error}`);
