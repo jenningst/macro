@@ -7,7 +7,14 @@ const meal = gql`
     position: Int
   }
 
-  input MealInput {
+  input CreateMealInput {
+    name: String!
+    position: Int
+    owner: String!
+  }
+
+  input UpdateMealInput {
+    id: String!
     name: String
     position: Int
     owner: String!

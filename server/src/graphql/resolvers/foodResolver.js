@@ -4,29 +4,29 @@ const { hasObjectChanged } = require("../../utilities/helpers");
 
 module.exports = {
   Query: {
-    foods: async () => {
+    food: async function(parent, { name }) {
+      try {
+        const food = await Food.findOne({ name });
+        food ? food : null;
+      } catch (error) {
+        // handle error
+        throw new Error(`${error}`);
+      }
+    },
+    foods: async function() {
       // prepare our response payload
       try {
         // mongoose: get food and populate the owner field
-        const foods = await Food.find().populate("owner");
-        if (foods) return foods;
-        return [];
+        const foods = await Food.find({}).populate("owner");
+        foods ? foods : [];
       } catch (error) {
-        throw new Error("No foods found!");
-      }
-    },
-    food: async (parent, { name }) => {
-      try {
-        const food = await Food.findOne({ name });
-        if (food) return food;
-        return null;
-      } catch (error) {
-        throw new Error("No Food found!");
+        // handle error
+        throw new Error(`${error}`);
       }
     }
   },
   Mutation: {
-    createFood: async (parent, { input }) => {
+    createFood: async function(parent, { input }) {
       // prepare our response payload
       let response = {
         food: null,
@@ -92,7 +92,7 @@ module.exports = {
       }
       return response;
     },
-    updateFood: async (parent, { input }) => {
+    updateFood: async function(parent, { input }) {
       // prepare our response payload
       let response = {
         food: null,

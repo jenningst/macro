@@ -6,7 +6,7 @@ const base = gql`
     user(email: String!): User
     date: Date
     food(name: String!): Food
-    foods: [Food]!
+    foods: [Food!]! ## must return a food type; must return a list
     meal(name: String!): Meal
     meals: [Meal!]!
   }
@@ -15,8 +15,8 @@ const base = gql`
     createUser(input: CreateUserInput!): CreateUserPayload!
     createFood(input: CreateFoodInput!): CreateFoodPayload!
     updateFood(input: UpdateFoodInput!): UpdateFoodPayload!
-    createMeal(mealInput: MealInput!): Meal!
-    updateMeal(id: String!, mealInput: MealInput!): Meal!
+    createMeal(input: CreateMealInput!): Meal!
+    updateMeal(input: UpdateMealInput!): Meal!
   }
 
   type ErrorPayload {

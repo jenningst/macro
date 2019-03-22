@@ -2,29 +2,27 @@ const Meal = require("../../db/models/meal");
 
 module.exports = {
   Query: {
-    meal: async (parent, { name }) => {
+    meal: async function(parent, { name }) {
       try {
         const meal = await Meal.findOne({ name });
-        if (meal) return meal;
-        return null;
+        meal ? meal : null;
       } catch (error) {
-        // TODO: Add custom error handling
-        throw new Error("No meal found!");
+        // handle error
+        throw new Error(`${error}`);
       }
     },
-    meals: async () => {
+    meals: async function() {
       try {
         const meals = await Meal.find({});
-        if (meals) return meals;
-        return [];
+        meals ? meals : [];
       } catch (error) {
-        // TODO: Add custom error handling
-        throw new Error("No meals found!");
+        // handle error
+        throw new Error(`${error}`);
       }
     }
   },
   Mutation: {
-    createMeal: async (parent, { mealInput: { name, position } }) => {
+    createMeal: async function(parent, { input: { name, position } }) {
       // mongoose: check for existing meal
       const meal = await Meal.find({ name: name });
       if (meal && meal.length > 1) {
@@ -43,7 +41,7 @@ module.exports = {
         throw new Error(`Failed to create meal with error: ${error}`);
       }
     },
-    updateMeal: async (parent, { id, mealInput: { name, position } }) => {
+    updateMeal: async function(parent, { input: { id, name, position } }) {
       // mongoose: check for existing meal
       let existingMeal = await Meal.findById(id);
       if (!existingMeal) {

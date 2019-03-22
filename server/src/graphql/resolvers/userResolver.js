@@ -3,24 +3,22 @@ const bcrypt = require("bcryptjs");
 
 module.exports = {
   Query: {
-    user: async (parent, { email }) => {
+    user: async function(parent, { email }) {
       try {
         const user = await User.findOne({ email });
-        if (user) return user;
-        return null;
+        user ? user : null;
       } catch (error) {
-        // TODO: Add custom error handling
-        throw new Error("No user found!");
+        // handle error
+        throw new Error(`${error}`);
       }
     },
-    users: async () => {
+    users: async function() {
       try {
         const users = await User.find({});
-        if (users) return users;
-        return [];
+        users ? users : [];
       } catch (error) {
-        // TODO: Add custom error handling
-        throw new Error("No users found!");
+        // handle error
+        throw new Error(`${error}`);
       }
     }
   },
