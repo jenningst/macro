@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// define our food revision schema
-const foodRevisionSchema = new Schema({
-  revisionNumber: Number,
-  calories: Number,
-  carbohydrates: Number,
-  fats: Number,
-  proteins: Number
-});
+// // define our food revision schema
+// const foodRevisionSchema = new Schema({
+//   revisionNumber: Number,
+//   calories: Number,
+//   carbohydrates: Number,
+//   fats: Number,
+//   proteins: Number
+// });
 
 // define our food schema
 const foodSchema = new Schema({
@@ -21,7 +21,11 @@ const foodSchema = new Schema({
   variant: String,
   servingUnit: String,
   servingSize: Number,
-  revisions: [foodRevisionSchema]
+  // revisions: [foodRevisionSchema]
+  calories: Number,
+  carbohydrates: Number,
+  fats: Number,
+  proteins: Number
 });
 
 // compile schema into a mongoose model and export

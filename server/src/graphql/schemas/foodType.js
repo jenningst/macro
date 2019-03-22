@@ -8,18 +8,21 @@ const food = gql`
     variant: String
     servingUnit: String
     servingSize: Int
-    revisions: [FoodRevision!]!
-    owner: User!
-  }
-
-  type FoodRevision {
-    id: ID!
-    revisionNumber: Int!
     calories: Int
     carbohydrates: Int
     fats: Int
     proteins: Int
+    owner: User!
   }
+
+  # type FoodRevision {
+  #   id: ID!
+  #   revisionNumber: Int!
+  #   calories: Int
+  #   carbohydrates: Int
+  #   fats: Int
+  #   proteins: Int
+  # }
 
   input CreateFoodInput {
     name: String!

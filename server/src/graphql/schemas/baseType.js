@@ -6,7 +6,7 @@ const base = gql`
     user(email: String!): User
     date: Date
     food(name: String!): Food
-    foods: [Food!]! ## must return a food type; must return a list
+    foods: [Food!]!
     meal(name: String!): Meal
     meals: [Meal!]!
   }
@@ -14,7 +14,7 @@ const base = gql`
   type Mutation {
     createUser(input: CreateUserInput!): CreateUserPayload!
     createFood(input: CreateFoodInput!): CreateFoodPayload!
-    updateFood(input: UpdateFoodInput!): UpdateFoodPayload!
+    # updateFood(input: UpdateFoodInput!): UpdateFoodPayload!
     deleteFood(id: String!): DeleteFoodPayload!
     createMeal(input: CreateMealInput!): CreateMealPayload!
     updateMeal(input: UpdateMealInput!): UpdateMealPayload!
