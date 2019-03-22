@@ -22,24 +22,46 @@ module.exports = {
     }
   },
   Mutation: {
-    createMeal: async function(parent, { input: { name, position } }) {
+    createMeal: async function(parent, { input }) {
+      const { name, position, owner } = input;
+
+      // prepare our response payload
+      let response = {
+        food: null,
+        error: {}
+      };
       // mongoose: check for existing meal
-      const meal = await Meal.find({ name: name });
-      if (meal && meal.length > 1) {
-        throw new Error("Please provide a unique meal name!");
-      }
-      // mongoose: create a new instance of Meal
-      const newMeal = new Meal({
-        name: name,
-        position: position || null
-      });
-      // mongoose: save the meal
       try {
-        return await newMeal.save();
+        const meal = await Meal.findOne({ name });
+        console.log(meal);
+        if (meal) {
+          response.error = { message: "Please provide a unique food name!" };
+          return response;
+        } else {
+          // mongoose: create a new instance of Meal
+          const newMeal = new Meal({
+            name: name,
+            position: position || null,
+            owner: "5c93b4965529ad0d65e4b103" // TODO: remove hard-coding later
+          });
+
+          // mongoose: save the meal and format the response
+          try {
+            const updatedMeal = await newMeal.save();
+            response.meal = updatedMeal;
+            response.error = {};
+          } catch (error) {
+            response.error = {
+              message: `Failed to create food with error: ${error}`
+            };
+          }
+        }
       } catch (error) {
-        // TODO: Add custom error handling
-        throw new Error(`Failed to create meal with error: ${error}`);
+        response.error = { message: `Error finding meal: ${error}` };
       }
+
+      // return
+      return response;
     },
     updateMeal: async function(parent, { input: { id, name, position } }) {
       // mongoose: check for existing meal

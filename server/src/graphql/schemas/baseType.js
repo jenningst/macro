@@ -15,8 +15,8 @@ const base = gql`
     createUser(input: CreateUserInput!): CreateUserPayload!
     createFood(input: CreateFoodInput!): CreateFoodPayload!
     updateFood(input: UpdateFoodInput!): UpdateFoodPayload!
-    createMeal(input: CreateMealInput!): Meal!
-    updateMeal(input: UpdateMealInput!): Meal!
+    createMeal(input: CreateMealInput!): CreateMealPayload!
+    updateMeal(input: UpdateMealInput!): UpdateMealPayload!
   }
 
   type ErrorPayload {

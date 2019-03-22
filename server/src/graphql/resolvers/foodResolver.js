@@ -32,6 +32,7 @@ module.exports = {
         food: null,
         error: {}
       };
+
       // mongoose: check for existing food
       try {
         const food = await Food.findOne({ name: input.name });
@@ -40,6 +41,7 @@ module.exports = {
           response.error = { message: "Please provide a unique food name!" };
           return response;
         }
+
         // mongoose: create a new instance of Food and FoodRevision
         const newFood = new Food({
           name: input.name,
@@ -58,6 +60,7 @@ module.exports = {
           ],
           owner: "5c93b4965529ad0d65e4b103" // TODO: remove hard-coding later
         });
+
         // mongoose: save the food and format the response
         try {
           const updatedFood = await newFood.save();
@@ -68,6 +71,7 @@ module.exports = {
             message: `Failed to create food with error: ${error}`
           };
         }
+
         // mongoose: update the user
         try {
           // REFACTOR: Could use a MongoDB transaction to handle BOTH the food and user updates
@@ -76,6 +80,7 @@ module.exports = {
             response.error = { message: `Failed to get owner user: ${error}` };
             return response;
           }
+
           // mongoose: store the food id in the user document
           try {
             await user.createdFoods.push(response.food.id); // BUG: this is not pushing to the db
@@ -90,6 +95,7 @@ module.exports = {
       } catch (error) {
         response.error = { message: `Error finding food: ${error}` };
       }
+      // return
       return response;
     },
     updateFood: async function(parent, { input }) {

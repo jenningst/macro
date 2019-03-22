@@ -19,6 +19,16 @@ const meal = gql`
     position: Int
     owner: String!
   }
+
+  type CreateMealPayload {
+    meal: Meal
+    error: ErrorPayload
+  }
+
+  type UpdateMealPayload {
+    meal: Meal
+    error: ErrorPayload
+  }
 `;
 
 module.exports = meal;
