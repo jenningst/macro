@@ -1,4 +1,4 @@
-const Meal = require("../../db/models/mealModel");
+const Meal = require("./mealModel");
 
 module.exports = {
   Query: {

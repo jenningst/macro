@@ -1,4 +1,4 @@
-const Food = require("../../db/models/foodModel");
+const Food = require("./foodModel");
 // const { hasObjectChanged } = require("../../utilities/helpers");
 
 module.exports = {

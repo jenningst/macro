@@ -1,8 +1,4 @@
-const mongoose = require("mongoose");
-const Serving = require("../../db/models/servingModel");
-const Food = require("../../db/models/foodModel");
-const Meal = require("../../db/models/mealModel");
-const User = require("../../db/models/userModel");
+const Serving = require("./servingModel");
 
 module.exports = {
   Query: {
