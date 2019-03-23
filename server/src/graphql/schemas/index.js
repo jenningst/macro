@@ -14,8 +14,9 @@ const baseType = require("./baseType");
 const foodType = require("./foodType");
 const userType = require("./userType");
 const mealType = require("./mealType");
+const servingType = require("./servingType");
 
-const typeDefs = [baseType, foodType, userType, mealType];
+const typeDefs = [baseType, foodType, userType, mealType, servingType];
 
 // console.log(foodType);
 

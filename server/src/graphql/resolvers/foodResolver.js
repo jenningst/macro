@@ -1,6 +1,5 @@
-const Food = require("../../db/models/food");
-const User = require("../../db/models/user");
-const { hasObjectChanged } = require("../../utilities/helpers");
+const Food = require("../../db/models/foodModel");
+// const { hasObjectChanged } = require("../../utilities/helpers");
 
 module.exports = {
   Query: {
@@ -56,7 +55,7 @@ module.exports = {
           response.error = { message: "Please provide a unique food name!" };
           return response;
         }
-        // mongoose: create a new instance of Food and FoodRevision
+        // mongoose: create a new instance of Food
         const newFood = new Food({
           name: name,
           brand: brand,
@@ -75,17 +74,17 @@ module.exports = {
           response.food = await newFood.save();
         } catch (error) {
           response.error = {
-            message: `Failed to create food with error: ${error}`
+            message: `Failed to save food with error: ${error}`
           };
         }
-        // mongoose: store the food id in the user document
-        try {
-          await user.createdFoods.push(response.food.id); // BUG: this is not pushing to the db
-        } catch (error) {
-          response.error = {
-            message: `Failed to update user model: ${error}`
-          };
-        }
+        // // mongoose: store the food id in the user document
+        // try {
+        //   await user.createdFoods.push(response.food.id); // BUG: this is not pushing to the db
+        // } catch (error) {
+        //   response.error = {
+        //     message: `Failed to update user model: ${error}`
+        //   };
+        // }
         // // mongoose: update the user
         // try {
         //   // REFACTOR: Could use a MongoDB transaction to handle BOTH the food and user updates
@@ -159,7 +158,8 @@ module.exports = {
     //   }
     //   return response;
     // },
-    deleteFood: async function(parent, { id }, context) {
+    deleteFood: async function(parent, { input }, context) {
+      const { id } = input;
       // prepare our response payload
       let response = {
         food: null,

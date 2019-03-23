@@ -3,13 +3,20 @@ const Schema = mongoose.Schema;
 
 // define our serving schema
 const servingSchema = new Schema({
-  revisionId: Number,
-  mealId: String,
+  date: String,
   servings: Number,
-  calories: Number,
-  carbohydrates: Number,
-  fats: Number,
-  proteins: Number
+  meal: {
+    type: Schema.Types.ObjectId,
+    ref: "Meal"
+  },
+  food: {
+    type: Schema.Types.ObjectId,
+    ref: "Food"
+  },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  }
 });
 
 // compile schema into a mongoose model and export
