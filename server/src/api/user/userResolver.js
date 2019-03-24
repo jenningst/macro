@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 
 module.exports = {
   Query: {
-    user: async function(parent, { email }) {
+    user: async function(_, { email }) {
       try {
         const user = await User.findOne({ email });
         if (user) {
@@ -29,12 +29,9 @@ module.exports = {
     }
   },
   Mutation: {
-    createUser: async (parent, { input: { email, password } }, context) => {
+    createUser: async (_, { input: { email, password } }) => {
       // prepare our response payload
-      let response = {
-        user: null,
-        error: {}
-      };
+      let response = { meal: null, error: {} };
       // mongoose: see if an user already exists with the same email
       try {
         const existingUser = await User.findOne({ email });

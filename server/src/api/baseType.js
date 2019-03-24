@@ -17,7 +17,7 @@ const base = gql`
     createUser(input: CreateUserInput!): CreateUserPayload!
     createFood(input: CreateFoodInput!): CreateFoodPayload!
     # updateFood(input: UpdateFoodInput!): UpdateFoodPayload!
-    deleteFood(id: String!): DeleteFoodPayload!
+    deleteFood(input: DeleteFoodInput!): DeleteFoodPayload!
     createMeal(input: CreateMealInput!): CreateMealPayload!
     updateMeal(input: UpdateMealInput!): UpdateMealPayload!
     deleteMeal(id: String!): DeleteMealPayload!
@@ -26,15 +26,15 @@ const base = gql`
     deleteServing(input: DeleteServingInput!): DeleteServingPayload!
   }
 
-  # # TODO: Implement this
-  # interface MutationResponse {
-  #   code: String!
-  #   success: Boolean!
-  #   message: String!
-  # }
+  type DetailsPayload {
+    code: String!
+    success: Boolean!
+    message: String!
+    ## any other error fields we need
+  }
 
   type ErrorPayload {
-    message: String
+    message: String!
     ## any other error fields we need
   }
 

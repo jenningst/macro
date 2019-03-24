@@ -1,6 +1,7 @@
 const { gql } = require("apollo-server-express");
 
 const food = gql`
+  ## Base Type
   type Food {
     id: ID!
     name: String!
@@ -24,6 +25,7 @@ const food = gql`
   #   proteins: Int
   # }
 
+  ## Inputs
   input CreateFoodInput {
     name: String!
     brand: String
@@ -50,23 +52,29 @@ const food = gql`
     proteins: Int
   }
 
-  type DeleteFoodInput {
+  input DeleteFoodInput {
     id: String!
   }
 
-  type CreateFoodPayload {
+  interface FoodPayload {
+    details: DetailsPayload
     food: Food
-    error: ErrorPayload
   }
 
-  type UpdateFoodPayload {
+  ## Payloads
+  type CreateFoodPayload implements FoodPayload {
+    details: DetailsPayload
     food: Food
-    error: ErrorPayload
   }
 
-  type DeleteFoodPayload {
+  type UpdateFoodPayload implements FoodPayload {
+    details: DetailsPayload
     food: Food
-    error: ErrorPayload
+  }
+
+  type DeleteFoodPayload implements FoodPayload {
+    details: DetailsPayload
+    food: Food
   }
 `;
 

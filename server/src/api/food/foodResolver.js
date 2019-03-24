@@ -3,7 +3,7 @@ const Food = require("./foodModel");
 
 module.exports = {
   Query: {
-    food: async function(parent, { name }) {
+    food: async function(_, { name }) {
       try {
         const food = await Food.findOne({ name });
         if (food) {
@@ -30,7 +30,7 @@ module.exports = {
     }
   },
   Mutation: {
-    createFood: async function(parent, { input }) {
+    createFood: async function(_, { input }) {
       const {
         name,
         brand,
@@ -43,16 +43,17 @@ module.exports = {
         proteins
       } = input;
       // prepare our response payload
-      let response = {
-        food: null,
-        error: {}
-      };
+      let response = { food: null, details: {} };
       // mongoose: check for existing food
       try {
         const food = await Food.findOne({ name });
         // existing food; return error
         if (food) {
-          response.error = { message: "Please provide a unique food name!" };
+          response.details = {
+            code: 403,
+            success: false,
+            message: "Food name not unique. Food not created!"
+          };
           return response;
         }
         // mongoose: create a new instance of Food
@@ -72,34 +73,25 @@ module.exports = {
         // mongoose: save the food and format the response
         try {
           response.food = await newFood.save();
+          response.details = {
+            code: 201,
+            success: true,
+            message: `New food created with name: [${response.food.name}]`
+          };
         } catch (error) {
-          response.error = {
-            message: `Failed to save food with error: ${error}`
+          response.details = {
+            code: 500,
+            success: false,
+            message: `Failed to save food with error: [${error}]`
           };
         }
-        // // mongoose: store the food id in the user document
-        // try {
-        //   await user.createdFoods.push(response.food.id); // BUG: this is not pushing to the db
-        // } catch (error) {
-        //   response.error = {
-        //     message: `Failed to update user model: ${error}`
-        //   };
-        // }
-        // // mongoose: update the user
-        // try {
-        //   // REFACTOR: Could use a MongoDB transaction to handle BOTH the food and user updates
-        //   const user = await User.findById("5c93b4965529ad0d65e4b103"); // TODO: remove hard-coding later
-        //   if (!user) {
-        //     response.error = { message: `Failed to get owner user: ${error}` };
-        //     return response;
-        //   }
-        // } catch (error) {
-        //   response.message = { message: `Error during find owner: ${error}` };
-        // }
       } catch (error) {
-        response.error = { message: `Error finding food: ${error}` };
+        response.details = {
+          code: 500,
+          success: false,
+          message: `Error finding food: [${error}]`
+        };
       }
-      // return
       return response;
     },
     // updateFood: async function(parent, { input }) {
@@ -158,20 +150,25 @@ module.exports = {
     //   }
     //   return response;
     // },
-    deleteFood: async function(parent, { input }, context) {
+    deleteFood: async function(_, { input }) {
       const { id } = input;
       // prepare our response payload
-      let response = {
-        food: null,
-        error: {}
-      };
+      let response = { food: null, details: {} };
       // mongoose: delete food
       try {
         response.food = await Food.findByIdAndDelete({ _id: id });
+        response.details = {
+          code: 200,
+          success: true,
+          message: `Food deleted with name: [${response.food.name}]`
+        };
       } catch (error) {
-        response.error = { message: `Error during delete: ${error}` };
+        response.details = {
+          code: 500,
+          success: false,
+          message: `Error during delete: [${error}]`
+        };
       }
-      // return
       return response;
     }
   }

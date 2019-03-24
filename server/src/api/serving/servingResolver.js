@@ -2,7 +2,7 @@ const Serving = require("./servingModel");
 
 module.exports = {
   Query: {
-    serving: async function(parent, { id }) {
+    serving: async function(_, { id }) {
       try {
         const serving = await Serving.findById(id)
           .populate("food")
@@ -34,13 +34,10 @@ module.exports = {
     }
   },
   Mutation: {
-    createServing: async function(parent, { input }) {
+    createServing: async function(_, { input }) {
       const { date, servings, food, meal, owner } = input;
       // prepare our response payload
-      let response = {
-        serving: null,
-        error: {}
-      };
+      let response = { meal: null, error: {} };
       // mongoose: create a new instance of Serving
       const newServing = new Serving({
         date,
@@ -62,10 +59,8 @@ module.exports = {
     },
     updateServing: async function(_, { input }) {
       const { id, servings } = input;
-      let response = {
-        food: null,
-        error: {}
-      };
+      // prepare our response payload
+      let response = { meal: null, error: {} };
       try {
         let existingServing = await Serving.findById(id);
         existingServing.servings = servings || existingServing.servings;
@@ -82,10 +77,8 @@ module.exports = {
     deleteServing: async function(_, { input }) {
       const { id } = input;
       // prepare our response payload
-      let response = {
-        food: null,
-        error: {}
-      };
+      let response = { meal: null, error: {} };
+      // mongoose: delete the document and return it
       try {
         response.serving = await Serving.findByIdAndDelete({ _id: id });
       } catch (error) {

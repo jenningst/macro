@@ -2,7 +2,7 @@ const Meal = require("./mealModel");
 
 module.exports = {
   Query: {
-    meal: async function(parent, { name }) {
+    meal: async function(_, { name }) {
       try {
         const meal = await Meal.findOne({ name });
         if (meal) {
@@ -28,13 +28,10 @@ module.exports = {
     }
   },
   Mutation: {
-    createMeal: async function(parent, { input }) {
+    createMeal: async function(_, { input }) {
       const { name, position, owner } = input;
       // prepare our response payload
-      let response = {
-        food: null,
-        error: {}
-      };
+      let response = { meal: null, error: {} };
       // mongoose: check for existing meal
       try {
         const meal = await Meal.findOne({ name });
@@ -49,7 +46,7 @@ module.exports = {
         const newMeal = new Meal({
           name: name,
           position: position || null,
-          owner: "5c93b4965529ad0d65e4b103" // TODO: remove hard-coding later
+          owner: owner
         });
         // mongoose: save the meal and format the response
         try {
@@ -64,16 +61,12 @@ module.exports = {
           message: `Error finding meal: ${error}`
         };
       }
-      // return
       return response;
     },
-    updateMeal: async function(parent, { input }) {
+    updateMeal: async function(_, { input }) {
       const { id, name, position } = input;
       // prepare our response payload
-      let response = {
-        food: null,
-        error: {}
-      };
+      let response = { meal: null, error: {} };
       // mongoose: check for existing meal
       try {
         const existingMeal = await Meal.findById(id);
@@ -99,22 +92,17 @@ module.exports = {
           message: `Error during findById: ${error}`
         };
       }
-      // return
       return response;
     },
-    deleteMeal: async function(parent, { id }, context) {
+    deleteMeal: async function(_, { id }) {
       // prepare our response payload
-      let response = {
-        meal: null,
-        error: {}
-      };
-      // mongoose: delete meal
+      let response = { meal: null, error: {} };
+      // mongoose: delete meal and return it
       try {
         response.meal = await Meal.findByIdAndDelete({ _id: id });
       } catch (error) {
         response.error = { message: `Error during delete: ${error}` };
       }
-      // return
       return response;
     }
   }
