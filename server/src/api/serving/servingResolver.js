@@ -1,6 +1,15 @@
 const Serving = require("./servingModel");
 
 module.exports = {
+  // needed to resolve our interface
+  ServingPayload: {
+    __resolveType(payload, context, info) {
+      if (payload.serving) {
+        return "Serving";
+      }
+      return null;
+    }
+  },
   Query: {
     serving: async function(_, { id }) {
       try {

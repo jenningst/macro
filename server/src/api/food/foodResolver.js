@@ -2,6 +2,15 @@ const Food = require("./foodModel");
 // const { hasObjectChanged } = require("../../utilities/helpers");
 
 module.exports = {
+  // needed to resolve our interface
+  FoodPayload: {
+    __resolveType(payload, context, info) {
+      if (payload.food) {
+        return "Food";
+      }
+      return null;
+    }
+  },
   Query: {
     food: async function(_, { name }) {
       try {

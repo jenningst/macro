@@ -39,18 +39,18 @@ const food = gql`
     owner: String!
   }
 
-  input UpdateFoodInput {
-    id: String!
-    name: String
-    brand: String
-    variant: String
-    servingUnit: String
-    servingSize: Int
-    calories: Int
-    carbohydrates: Int
-    fats: Int
-    proteins: Int
-  }
+  # input UpdateFoodInput {
+  #   id: String!
+  #   name: String
+  #   brand: String
+  #   variant: String
+  #   servingUnit: String
+  #   servingSize: Int
+  #   calories: Int
+  #   carbohydrates: Int
+  #   fats: Int
+  #   proteins: Int
+  # }
 
   input DeleteFoodInput {
     id: String!

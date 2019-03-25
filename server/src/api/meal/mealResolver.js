@@ -1,6 +1,15 @@
 const Meal = require("./mealModel");
 
 module.exports = {
+  // needed to resolve our interface
+  MealPayload: {
+    __resolveType(payload, context, info) {
+      if (payload.meal) {
+        return "Meal";
+      }
+      return null;
+    }
+  },
   Query: {
     meal: async function(_, { name }) {
       try {

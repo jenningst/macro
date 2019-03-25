@@ -2,6 +2,15 @@ const User = require("./userModel");
 const bcrypt = require("bcryptjs");
 
 module.exports = {
+  // needed to resolve our interface
+  UserPayload: {
+    __resolveType(payload, context, info) {
+      if (payload.user) {
+        return "User";
+      }
+      return null;
+    }
+  },
   Query: {
     user: async function(_, { email }) {
       try {
