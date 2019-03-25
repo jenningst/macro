@@ -31,12 +31,14 @@ module.exports = {
   Mutation: {
     createUser: async (_, { input: { email, password } }) => {
       // prepare our response payload
-      let response = { meal: null, error: {} };
+      let response = { user: null, details: {} };
       // mongoose: see if an user already exists with the same email
       try {
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-          response.error = {
+          response.details = {
+            code: 403,
+            success: false,
             message: `User with email ${email} already exists.`
           };
           return response;
@@ -58,20 +60,31 @@ module.exports = {
               password: null,
               _id: newUser.id
             };
+            response.details = {
+              code: 201,
+              success: true,
+              message: `New user created with name: [${response.user.email}]`
+            };
           } catch (error) {
-            response.error = {
+            response.details = {
+              code: 500,
+              success: false,
               message: `Error during save operation: ${error.message}`
             };
           }
         } catch (error) {
           // error during hashing operation
-          response.error = {
+          response.details = {
+            code: 500,
+            success: false,
             message: `Error during hashing: ${error.message}`
           };
         }
       } catch (error) {
         // error during the initial find
-        response.error = {
+        response.details = {
+          code: 500,
+          success: false,
           message: `Error during findOne operation: ${error.message}`
         };
       }

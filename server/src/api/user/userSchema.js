@@ -1,21 +1,29 @@
 const { gql } = require("apollo-server-express");
 
 const user = gql`
+  ## Base Type
   type User {
     id: String!
     email: String!
     password: String # nullable because we don't want to retrieve
-    # createdFoods: [Food!]
   }
 
+  ## Inputs
   input CreateUserInput {
     email: String!
     password: String!
   }
 
-  type CreateUserPayload {
+  ## Custom Payload Interface
+  interface UserPayload {
+    details: DetailsPayload
     user: User
-    error: ErrorPayload
+  }
+
+  ## Payload Types
+  type CreateUserPayload implements UserPayload {
+    details: DetailsPayload
+    user: User
   }
 `;
 

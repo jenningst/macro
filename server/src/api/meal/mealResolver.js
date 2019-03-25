@@ -31,13 +31,15 @@ module.exports = {
     createMeal: async function(_, { input }) {
       const { name, position, owner } = input;
       // prepare our response payload
-      let response = { meal: null, error: {} };
+      let response = { meal: null, details: {} };
       // mongoose: check for existing meal
       try {
         const meal = await Meal.findOne({ name });
         console.log(meal);
         if (meal) {
-          response.error = {
+          response.details = {
+            code: 403,
+            success: false,
             message: "Please provide a unique food name!"
           };
           return response;
@@ -51,13 +53,22 @@ module.exports = {
         // mongoose: save the meal and format the response
         try {
           response.meal = await newMeal.save();
+          response.details = {
+            code: 201,
+            success: true,
+            message: `New meal created with name: [${response.meal.name}]`
+          };
         } catch (error) {
-          response.error = {
+          response.details = {
+            code: 500,
+            success: false,
             message: `Failed to create food with error: ${error}`
           };
         }
       } catch (error) {
-        response.error = {
+        response.details = {
+          code: 500,
+          success: false,
           message: `Error finding meal: ${error}`
         };
       }
@@ -66,12 +77,14 @@ module.exports = {
     updateMeal: async function(_, { input }) {
       const { id, name, position } = input;
       // prepare our response payload
-      let response = { meal: null, error: {} };
+      let response = { meal: null, details: {} };
       // mongoose: check for existing meal
       try {
         const existingMeal = await Meal.findById(id);
         if (!existingMeal) {
-          response.error = {
+          response.details = {
+            code: 500,
+            success: false,
             message: `Error finding meal: ${error}`
           };
           return response;
@@ -82,13 +95,20 @@ module.exports = {
         // mongoose: save
         try {
           response.meal = await existingMeal.save();
+          response.details = {
+            code: 201,
+            success: true,
+            message: `Meal updated with name: [${response.meal.name}]`
+          };
         } catch (error) {
-          response.error = {
+          response.details = {
             message: `Failed to update meal: ${error}`
           };
         }
       } catch (error) {
-        response.error = {
+        response.details = {
+          code: 500,
+          success: false,
           message: `Error during findById: ${error}`
         };
       }
@@ -96,12 +116,21 @@ module.exports = {
     },
     deleteMeal: async function(_, { id }) {
       // prepare our response payload
-      let response = { meal: null, error: {} };
+      let response = { meal: null, details: {} };
       // mongoose: delete meal and return it
       try {
         response.meal = await Meal.findByIdAndDelete({ _id: id });
+        response.details = {
+          code: 200,
+          success: true,
+          message: `Meal deleted with name: [${response.meal.name}]`
+        };
       } catch (error) {
-        response.error = { message: `Error during delete: ${error}` };
+        response.details = {
+          code: 500,
+          success: false,
+          message: `Error during delete: ${error}`
+        };
       }
       return response;
     }

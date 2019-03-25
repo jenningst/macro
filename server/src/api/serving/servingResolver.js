@@ -37,7 +37,7 @@ module.exports = {
     createServing: async function(_, { input }) {
       const { date, servings, food, meal, owner } = input;
       // prepare our response payload
-      let response = { meal: null, error: {} };
+      let response = { serving: null, details: {} };
       // mongoose: create a new instance of Serving
       const newServing = new Serving({
         date,
@@ -49,8 +49,15 @@ module.exports = {
       // mongoose: save the serving and format the response
       try {
         response.serving = await newServing.save();
+        response.details = {
+          code: 201,
+          success: true,
+          message: `New serving created]`
+        };
       } catch (error) {
-        response.error = {
+        response.details = {
+          code: 500,
+          success: false,
           message: `Failed to save serving: ${error}`
         };
       }
@@ -60,31 +67,52 @@ module.exports = {
     updateServing: async function(_, { input }) {
       const { id, servings } = input;
       // prepare our response payload
-      let response = { meal: null, error: {} };
+      let response = { serving: null, details: {} };
       try {
         let existingServing = await Serving.findById(id);
         existingServing.servings = servings || existingServing.servings;
         try {
           response.serving = await existingServing.save();
+          response.details = {
+            code: 200,
+            success: true,
+            message: `Serving updated`
+          };
         } catch (error) {
-          response.error = { message: `Error during find: ${error}` };
+          response.details = {
+            code: 500,
+            success: false,
+            message: `Error during find: ${error}`
+          };
         }
       } catch (error) {
-        response.error = { message: `Error during find: ${error}` };
+        response.details = {
+          code: 500,
+          success: false,
+          message: `Error during find: ${error}`
+        };
       }
       return response;
     },
     deleteServing: async function(_, { input }) {
       const { id } = input;
       // prepare our response payload
-      let response = { meal: null, error: {} };
+      let response = { serving: null, details: {} };
       // mongoose: delete the document and return it
       try {
         response.serving = await Serving.findByIdAndDelete({ _id: id });
+        response.details = {
+          code: 200,
+          success: true,
+          message: `Serving deleted with id: [${response.serving.id}]`
+        };
       } catch (error) {
-        response.error = { message: `Error during delete: ${error}` };
+        response.details = {
+          code: 500,
+          success: false,
+          message: `Error during delete: ${error}`
+        };
       }
-      // return
       return response;
     }
   }

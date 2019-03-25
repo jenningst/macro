@@ -1,6 +1,7 @@
 const { gql } = require("apollo-server-express");
 
 const serving = gql`
+  ## Base Type
   type Serving {
     id: ID!
     date: String!
@@ -10,6 +11,7 @@ const serving = gql`
     owner: User!
   }
 
+  ## Input Types
   input CreateServingInput {
     date: String!
     servings: Int!
@@ -28,19 +30,26 @@ const serving = gql`
     id: String!
   }
 
-  type CreateServingPayload {
+  ## Custom Payload Interface
+  interface ServingPayload {
+    details: DetailsPayload
     serving: Serving
-    error: ErrorPayload
   }
 
-  type UpdateServingPayload {
+  ## Payload Types
+  type CreateServingPayload implements ServingPayload {
+    details: DetailsPayload
     serving: Serving
-    error: ErrorPayload
   }
 
-  type DeleteServingPayload {
+  type UpdateServingPayload implements ServingPayload {
+    details: DetailsPayload
     serving: Serving
-    error: ErrorPayload
+  }
+
+  type DeleteServingPayload implements ServingPayload {
+    details: DetailsPayload
+    serving: Serving
   }
 `;
 

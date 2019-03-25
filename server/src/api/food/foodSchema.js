@@ -25,7 +25,7 @@ const food = gql`
   #   proteins: Int
   # }
 
-  ## Inputs
+  ## Input Types
   input CreateFoodInput {
     name: String!
     brand: String
@@ -56,12 +56,13 @@ const food = gql`
     id: String!
   }
 
+  ## Custom Payload Interface
   interface FoodPayload {
     details: DetailsPayload
     food: Food
   }
 
-  ## Payloads
+  ## Payload Types
   type CreateFoodPayload implements FoodPayload {
     details: DetailsPayload
     food: Food

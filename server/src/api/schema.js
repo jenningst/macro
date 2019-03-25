@@ -10,11 +10,11 @@ const { mergeTypes } = require("merge-graphql-schemas");
  **/
 
 // import our typeDefs
-const baseType = require("./baseType");
-const foodType = require("./food/foodType");
-const userType = require("./user/userType");
-const mealType = require("./meal/mealType");
-const servingType = require("./serving/servingType");
+const baseType = require("./baseSchema");
+const foodType = require("./food/foodSchema");
+const userType = require("./user/userSchema");
+const mealType = require("./meal/mealSchema");
+const servingType = require("./serving/servingSchema");
 
 const typeDefs = [baseType, foodType, userType, mealType, servingType];
 
