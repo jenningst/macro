@@ -82,7 +82,7 @@ const MealList = () => {
             <div className="meal-list" style={styles}>
               {data.meals.map((meal, index) => (
                 <MealItem
-                  key={index}
+                  key={meal._id}
                   name={meal.name}
                   position={index}
                   isEditable={editable}
