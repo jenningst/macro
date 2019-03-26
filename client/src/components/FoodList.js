@@ -1,7 +1,7 @@
 import React from "react";
 import FoodItem from "./FoodItem";
 import { Query } from "react-apollo";
-import { GET_FOODS } from "../graphql/foods";
+import { GET_FOODS } from "../graphql/food";
 import "./styles/FoodItem.css";
 
 const styles = {

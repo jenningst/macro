@@ -9,19 +9,21 @@ const CREATE_FOOD = gql`
         variant
         servingSize
         servingUnit
-        revisions {
-          calories
-          fats
-          proteins
-          carbohydrates
-        }
+        calories
+        fats
+        proteins
+        carbohydrates
+        owner
       }
-      error {
+      details {
+        code
+        success
         message
       }
     }
   }
 `;
+
 const GET_FOODS = gql`
   query foods {
     foods {
@@ -31,14 +33,13 @@ const GET_FOODS = gql`
       variant
       servingSize
       servingUnit
-      revisions {
-        id
-        revisionNumber
-        calories
-        carbohydrates
-        proteins
-        fats
-      }
+      calories
+      carbohydrates
+      proteins
+      fats
+    }
+    owner {
+      email
     }
   }
 `;

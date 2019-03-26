@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Mutation } from "react-apollo";
-import { GET_FOODS, CREATE_FOOD } from "../graphql/foods";
+import { GET_FOODS, CREATE_FOOD } from "../graphql/food";
 import "./styles/CreateFood.css";
 
 const CreateFood = () => {

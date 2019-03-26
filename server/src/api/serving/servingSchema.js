@@ -5,6 +5,8 @@ const serving = gql`
   type Serving {
     id: ID!
     date: String!
+    ## createdAt: String!
+    ## createdAt: String!
     servings: Int!
     meal: Meal!
     food: Food!
