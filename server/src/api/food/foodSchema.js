@@ -3,7 +3,7 @@ const { gql } = require("apollo-server-express");
 const food = gql`
   ## Base Type
   type Food {
-    id: ID!
+    _id: ID!
     name: String!
     brand: String
     variant: String

@@ -15,7 +15,7 @@ module.exports = {
       try {
         const meal = await Meal.findOne({ name });
         if (meal) {
-          return meal;
+          return { ...meal._doc, _id: meal.id };
         }
         return null;
       } catch (error) {
@@ -27,7 +27,9 @@ module.exports = {
       try {
         const meals = await Meal.find({}).populate("owner");
         if (meals) {
-          return meals;
+          return meals.map(meal => {
+            return { ...meal._doc, _id: meal.id };
+          });
         }
         return [];
       } catch (error) {
@@ -39,12 +41,9 @@ module.exports = {
   Mutation: {
     createMeal: async function(_, { input }) {
       const { name, position, owner } = input;
-      // prepare our response payload
       let response = { meal: null, details: {} };
-      // mongoose: check for existing meal
       try {
         const meal = await Meal.findOne({ name });
-        console.log(meal);
         if (meal) {
           response.details = {
             code: 403,
@@ -53,15 +52,14 @@ module.exports = {
           };
           return response;
         }
-        // mongoose: create a new instance of Meal
         const newMeal = new Meal({
           name: name,
           position: position || null,
           owner: owner
         });
-        // mongoose: save the meal and format the response
         try {
-          response.meal = await newMeal.save();
+          const createdMeal = await newMeal.save();
+          response.meal = { ...createdMeal._doc, _id: createdMeal.id };
           response.details = {
             code: 201,
             success: true,
@@ -85,9 +83,7 @@ module.exports = {
     },
     updateMeal: async function(_, { input }) {
       const { id, name, position } = input;
-      // prepare our response payload
       let response = { meal: null, details: {} };
-      // mongoose: check for existing meal
       try {
         const existingMeal = await Meal.findById(id);
         if (!existingMeal) {
@@ -98,12 +94,11 @@ module.exports = {
           };
           return response;
         }
-        // update existing meal
         existingMeal.name = name || existingMeal.name;
         existingMeal.position = position || existingMeal.position;
-        // mongoose: save
         try {
-          response.meal = await existingMeal.save();
+          const fetchedMeal = await existingMeal.save();
+          response.meal = { ...fetchedMeal._doc, _id: fetchedMeal.id };
           response.details = {
             code: 201,
             success: true,
@@ -124,11 +119,10 @@ module.exports = {
       return response;
     },
     deleteMeal: async function(_, { id }) {
-      // prepare our response payload
       let response = { meal: null, details: {} };
-      // mongoose: delete meal and return it
       try {
-        response.meal = await Meal.findByIdAndDelete({ _id: id });
+        const deletedMeal = await Meal.findByIdAndDelete({ _id: id });
+        response.meal = { ...deletedMeal._doc, _id: deletedMeal.id };
         response.details = {
           code: 200,
           success: true,

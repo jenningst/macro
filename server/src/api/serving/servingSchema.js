@@ -3,7 +3,7 @@ const { gql } = require("apollo-server-express");
 const serving = gql`
   ## Base Type
   type Serving {
-    id: ID!
+    _id: ID!
     date: String!
     ## createdAt: String!
     ## createdAt: String!
@@ -17,12 +17,13 @@ const serving = gql`
   input CreateServingInput {
     date: String!
     servings: Int!
-    food: ID!
-    meal: ID!
-    owner: ID!
+    food: String!
+    meal: String!
+    owner: String!
   }
 
   input UpdateServingInput {
+    id: String!
     servings: Int
     food: String
     meal: String

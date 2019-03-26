@@ -1,5 +1,4 @@
 const Food = require("./foodModel");
-// const { hasObjectChanged } = require("../../utilities/helpers");
 
 module.exports = {
   // needed to resolve our interface
@@ -16,7 +15,8 @@ module.exports = {
       try {
         const food = await Food.findOne({ name });
         if (food) {
-          return food;
+          // return doc w/o metadata; replace mongo _id with the food id
+          return { ...food._doc, _id: food.id };
         }
         return null;
       } catch (error) {
@@ -26,10 +26,11 @@ module.exports = {
     },
     foods: async function() {
       try {
-        // mongoose: get food and populate the owner field
         const foods = await Food.find({}).populate("owner");
         if (foods.length > 0) {
-          return foods;
+          return foods.map(food => {
+            return { ...food._doc, _id: food.id };
+          });
         }
         return [];
       } catch (error) {
@@ -51,12 +52,9 @@ module.exports = {
         fats,
         proteins
       } = input;
-      // prepare our response payload
       let response = { food: null, details: {} };
-      // mongoose: check for existing food
       try {
         const food = await Food.findOne({ name });
-        // existing food; return error
         if (food) {
           response.details = {
             code: 403,
@@ -65,7 +63,6 @@ module.exports = {
           };
           return response;
         }
-        // mongoose: create a new instance of Food
         const newFood = new Food({
           name: name,
           brand: brand,
@@ -79,9 +76,9 @@ module.exports = {
           proteins: proteins,
           owner: "5c93b4965529ad0d65e4b103" // TODO: remove hard-coding later
         });
-        // mongoose: save the food and format the response
         try {
-          response.food = await newFood.save();
+          let createdFood = await newFood.save();
+          response.food = { ...createdFood._doc, _id: createdFood.id };
           response.details = {
             code: 201,
             success: true,
@@ -160,12 +157,12 @@ module.exports = {
     //   return response;
     // },
     deleteFood: async function(_, { input }) {
+      // BUG: Deleting food would orphan servings as the referece would be dead
       const { id } = input;
-      // prepare our response payload
       let response = { food: null, details: {} };
-      // mongoose: delete food
       try {
-        response.food = await Food.findByIdAndDelete({ _id: id });
+        const deletedFood = await Food.findByIdAndDelete({ _id: id });
+        response.food = { ...deletedFood._doc, _id: deletedFood.id };
         response.details = {
           code: 200,
           success: true,

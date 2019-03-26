@@ -33,11 +33,6 @@ const base = gql`
     ## any other error fields we need
   }
 
-  type ErrorPayload {
-    message: String!
-    ## any other error fields we need
-  }
-
   scalar Date
 `;
 

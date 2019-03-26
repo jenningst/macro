@@ -3,7 +3,7 @@ const { gql } = require("apollo-server-express");
 const user = gql`
   ## Base Type
   type User {
-    id: String!
+    _id: ID!
     email: String!
     password: String # nullable because we don't want to retrieve
   }
