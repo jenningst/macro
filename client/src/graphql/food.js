@@ -1,9 +1,10 @@
-import gql from "graphql-tag";
+import { gql } from "apollo-boost";
 
 const CREATE_FOOD = gql`
   mutation createFood($input: CreateFoodInput!) {
     createFood(input: $input) {
       food {
+        _id
         name
         brand
         variant
@@ -13,7 +14,6 @@ const CREATE_FOOD = gql`
         fats
         proteins
         carbohydrates
-        owner
       }
       details {
         code
@@ -25,21 +25,22 @@ const CREATE_FOOD = gql`
 `;
 
 const GET_FOODS = gql`
-  query foods {
+  query {
     foods {
-      id
+      _id
       name
       brand
       variant
-      servingSize
       servingUnit
+      servingSize
       calories
       carbohydrates
       proteins
       fats
-    }
-    owner {
-      email
+      owner {
+        _id
+        email
+      }
     }
   }
 `;

@@ -3,7 +3,7 @@ import { Mutation } from "react-apollo";
 import { GET_FOODS, CREATE_FOOD } from "../graphql/food";
 import "./styles/CreateFood.css";
 
-const CreateFood = () => {
+const CreateFood = props => {
   // setup local state for form input
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
@@ -69,42 +69,27 @@ const CreateFood = () => {
     calories,
     carbohydrates,
     fats,
-    proteins
+    proteins,
+    owner: "5c93b4965529ad0d65e4b103"
   };
 
-  // cache update:
-  // cache: our cache
-  // { data: ... } data in our cache; destructure the mutation
-  // { createFood } data we get back (name of our mutation); will be the shape of our mutation output
-  //                (in our case a CreateFoodPayload shape)
+  const onFormSubmit = e => {
+    e.preventDefault();
+    // TODO: Add submit validation check!
+    // TODO: Add a validation and hook into the render props function
+  };
 
   return (
-    <div className="create-food-form">
-      <Mutation
-        mutation={CREATE_FOOD}
-        update={(cache, { data: { createFood } }) => {
-          // destructure the CreateFoodPayload from data
-          const { food, error } = createFood;
-          // if no errors in the CreateFoodPayload, continue
-          if (error.message !== null) {
-            alert(`error: ${error.message}`);
-          }
-          // read our cached data
-          const data = cache.readQuery({ query: GET_FOODS });
-          const newData = [...data.foods, food];
-          alert(JSON.stringify(newData, null, 2));
-          // push the new food to our cache
-          cache.writeQuery({
-            query: GET_FOODS,
-            data: { foods: [...data.foods, food] }
-          });
-        }}
-      >
-        {(createFood, { loading, error }) => (
+    <Mutation mutation={CREATE_FOOD}>
+      {(createFood, { data }) => (
+        <div className="create-food-form">
           <form
             onSubmit={e => {
               e.preventDefault();
-              createFood({ variables: { input } });
+              createFood({
+                variables: { input },
+                refetchQueries: [{ query: GET_FOODS }]
+              });
             }}
           >
             <h1>Create Food Form</h1>
@@ -196,12 +181,10 @@ const CreateFood = () => {
             </label>
             <button type="submit">Create Food</button>
             <button onClick={clearInputs}>Clear Fields</button>
-            {loading && <p>Loading...</p>}
-            {error && <p>Error :( Please try again</p>}
           </form>
-        )}
-      </Mutation>
-    </div>
+        </div>
+      )}
+    </Mutation>
   );
 };
 

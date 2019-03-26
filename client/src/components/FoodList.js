@@ -9,30 +9,36 @@ const styles = {
   flexFlow: "column nowrap"
 };
 
+// TODO: Make another component for this
+const loadingMessage = <div>Loading...</div>;
+
 const FoodList = () => {
   return (
     <Query query={GET_FOODS}>
       {({ loading, error, data }) => {
-        if (loading) return "Loading...";
-        if (error) return `Error! ${error.message}`;
-        if (data && data !== undefined) {
-          return (
-            <div className="food-list" style={styles}>
-              {data.foods.map((food, index) => (
-                <FoodItem
-                  key={index}
-                  name={food.name}
-                  brand={food.brand}
-                  variant={food.variant}
-                  servingUnit={food.servingUnit}
-                  servingSize={food.servingSize}
-                  nutrition={food.revisions[food.revisions.length - 1]}
-                />
-              ))}
-            </div>
-          );
-        }
-        return <p>Something went wrong during query!</p>;
+        if (loading) return loadingMessage;
+        if (error) return <div>Error</div>;
+
+        const foodsToRender = data.foods;
+
+        return (
+          <div className="food-list" style={styles}>
+            {foodsToRender.map(food => (
+              <FoodItem
+                key={food.id}
+                name={food.name}
+                brand={food.brand}
+                variant={food.variant}
+                servingUnit={food.servingUnit}
+                servingSize={food.servingSize}
+                calories={food.calories}
+                carbohydrates={food.carbohydrates}
+                fats={food.fats}
+                proteins={food.proteins}
+              />
+            ))}
+          </div>
+        );
       }}
     </Query>
   );
