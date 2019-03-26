@@ -1,13 +1,12 @@
-import gql from "graphql-tag";
+import { gql } from "apollo-boost";
 
 const CREATE_MEAL = gql`
   mutation createMeal($input: CreateMealInput!) {
-    createFood(input: $input) {
+    createMeal(input: $input) {
       meal {
-        id
+        _id
         name
         position
-        owner
       }
       details {
         code
@@ -21,7 +20,7 @@ const CREATE_MEAL = gql`
 const GET_MEALS = gql`
   query meals {
     meals {
-      id
+      _id
       name
       position
       owner {

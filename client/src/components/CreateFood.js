@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Mutation } from "react-apollo";
-import { GET_FOODS, CREATE_FOOD } from "../graphql/food";
+import { GET_FOODS, CREATE_FOOD } from "../queries/food";
 import "./styles/CreateFood.css";
 
 const CreateFood = props => {
@@ -70,7 +70,7 @@ const CreateFood = props => {
     carbohydrates,
     fats,
     proteins,
-    owner: "5c93b4965529ad0d65e4b103"
+    owner: "5c93b4965529ad0d65e4b103" // TODO: remove hard-coding
   };
 
   const onFormSubmit = e => {

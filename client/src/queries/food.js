@@ -25,7 +25,7 @@ const CREATE_FOOD = gql`
 `;
 
 const GET_FOODS = gql`
-  query {
+  query foods {
     foods {
       _id
       name

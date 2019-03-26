@@ -1,7 +1,7 @@
 import React from "react";
 import FoodItem from "./FoodItem";
 import { Query } from "react-apollo";
-import { GET_FOODS } from "../graphql/food";
+import { GET_FOODS } from "../queries/food";
 import "./styles/FoodItem.css";
 
 const styles = {
@@ -19,13 +19,11 @@ const FoodList = () => {
         if (loading) return loadingMessage;
         if (error) return <div>Error</div>;
 
-        const foodsToRender = data.foods;
-
         return (
           <div className="food-list" style={styles}>
-            {foodsToRender.map(food => (
+            {data.foods.map((food, index) => (
               <FoodItem
-                key={food.id}
+                key={index}
                 name={food.name}
                 brand={food.brand}
                 variant={food.variant}

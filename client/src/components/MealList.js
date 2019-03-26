@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import MealItem from "./MealItem";
-
-// TODO: graphql createMeal mutation
-// TODO: graphql meals query
+import { Query } from "react-apollo";
+import { GET_MEALS } from "../queries/meal";
 
 const styles = {
-  // TODO: find our preferred way of handling styles
+  // REFACTOR: find our preferred way of handling styles
   display: "flex",
   flexFlow: "column nowrap"
 };
@@ -66,35 +65,39 @@ const MealList = () => {
     updateMealsList(mealListNew);
   };
 
+  // TODO: Make another component for this
+  const loadingMessage = <div>Loading...</div>;
+
   if (isAuthenticated) {
     // TODO: if authenticated, query for the user's meal list
   } else {
     // TODO: refactor .map() to avoid using index
     return (
-      <div className="meal-list">
-        <form onSubmit={addMeal}>
-          <h1>{isAuthenticated}</h1>
-          <input type="text" value={mealName} onChange={handleNameChange} />
-          <button type="submit">+</button>
-          <span>{errors}</span>
-          <div className="meal-list" style={styles}>
-            {mealsList.map((meal, index) => (
-              <MealItem
-                key={index}
-                name={meal}
-                position={index}
-                isEditable={editable}
-                remove={removeMeal}
-              />
-            ))}
-          </div>
-          {mealsList.length > 0 && (
-            <button onClick={toggleEditableStatus}>
-              {editable ? "Save" : "Edit Meals"}
-            </button>
-          )}
-        </form>
-      </div>
+      <Query query={GET_MEALS}>
+        {({ loading, error, data }) => {
+          if (loading) return loadingMessage;
+          if (error) return <div>Error: ${error.message}</div>;
+
+          return (
+            <div className="meal-list" style={styles}>
+              {data.meals.map((meal, index) => (
+                <MealItem
+                  key={index}
+                  name={meal.name}
+                  position={index}
+                  isEditable={editable}
+                  remove={removeMeal}
+                />
+              ))}
+              {mealsList.length > 0 && (
+                <button onClick={toggleEditableStatus}>
+                  {editable ? "Save" : "Edit Meals"}
+                </button>
+              )}
+            </div>
+          );
+        }}
+      </Query>
     );
   }
 };

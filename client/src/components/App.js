@@ -5,6 +5,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import "./styles/App.css";
 import CreateFood from "./CreateFood";
 import FoodList from "./FoodList";
+import CreateMeal from "./CreateMeal";
 import MealList from "./MealList";
 
 const client = new ApolloClient({
@@ -15,6 +16,7 @@ const client = new ApolloClient({
 const App = () => (
   <ApolloProvider client={client}>
     <div className="app">
+      <CreateMeal />
       <MealList />
       <CreateFood />
       <FoodList />
