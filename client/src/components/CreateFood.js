@@ -73,12 +73,6 @@ const CreateFood = props => {
     owner: "5c93b4965529ad0d65e4b103" // TODO: remove hard-coding
   };
 
-  const onFormSubmit = e => {
-    e.preventDefault();
-    // TODO: Add submit validation check!
-    // TODO: Add a validation and hook into the render props function
-  };
-
   return (
     <Mutation mutation={CREATE_FOOD}>
       {(createFood, { data }) => (

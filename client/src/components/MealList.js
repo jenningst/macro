@@ -2,12 +2,7 @@ import React, { useState } from "react";
 import MealItem from "./MealItem";
 import { Query } from "react-apollo";
 import { GET_MEALS } from "../queries/meal";
-
-const styles = {
-  // REFACTOR: find our preferred way of handling styles
-  display: "flex",
-  flexFlow: "column nowrap"
-};
+import "./styles/MealList.css";
 
 const MealList = () => {
   const [isAuthenticated, toggleisAuthenticated] = useState(false);
@@ -33,21 +28,25 @@ const MealList = () => {
           setMeals(data.meals.length);
 
           return (
-            <div className="meal-list" style={styles}>
-              {data.meals.map((meal, index) => (
-                <MealItem
-                  key={meal._id}
-                  id={meal._id}
-                  name={meal.name}
-                  position={index}
-                  isEditable={editable}
-                />
-              ))}
-              {meals > 0 && (
-                <button onClick={toggleEditableStatus}>
-                  {editable ? "Save" : "Edit Meals"}
-                </button>
-              )}
+            <div className="meal-list-container">
+              <div className="meal-list">
+                {data.meals.map((meal, index) => (
+                  <MealItem
+                    key={meal._id}
+                    id={meal._id}
+                    name={meal.name}
+                    position={index}
+                    isEditable={editable}
+                  />
+                ))}
+              </div>
+              <div className="edit-meals">
+                {meals > 0 && (
+                  <button onClick={toggleEditableStatus}>
+                    {editable ? "Save" : "Edit Meals"}
+                  </button>
+                )}
+              </div>
             </div>
           );
         }}

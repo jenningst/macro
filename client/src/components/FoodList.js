@@ -17,26 +17,29 @@ const FoodList = () => {
       {({ loading, error, data }) => {
         if (loading) return loadingMessage;
         if (error) return <div>Error</div>;
-
-        return (
-          <div className="food-list" style={styles}>
-            {data.foods.map((food, index) => (
-              <FoodItem
-                key={index}
-                id={food._id}
-                name={food.name}
-                brand={food.brand}
-                variant={food.variant}
-                servingUnit={food.servingUnit}
-                servingSize={food.servingSize}
-                calories={food.calories}
-                carbohydrates={food.carbohydrates}
-                fats={food.fats}
-                proteins={food.proteins}
-              />
-            ))}
-          </div>
-        );
+        if (data) {
+          return (
+            <div className="food-list" style={styles}>
+              {data.foods.map((food, index) => (
+                <FoodItem
+                  key={index}
+                  id={food._id}
+                  name={food.name}
+                  brand={food.brand}
+                  variant={food.variant}
+                  servingUnit={food.servingUnit}
+                  servingSize={food.servingSize}
+                  calories={food.calories}
+                  carbohydrates={food.carbohydrates}
+                  fats={food.fats}
+                  proteins={food.proteins}
+                />
+              ))}
+            </div>
+          );
+        } else {
+          return <div>{data}</div>;
+        }
       }}
     </Query>
   );

@@ -9,19 +9,24 @@ const MealItem = ({ id, name, isEditable }) => {
     <Mutation mutation={DELETE_MEAL}>
       {(deleteMeal, { data }) => (
         <div className="meal-item">
-          <div className="meal-item__name">{name}</div>
+          <p className="meal-item__name">{name}</p>
           {isEditable && (
-            <button
-              onClick={e => {
-                e.preventDefault();
-                deleteMeal({
-                  variables: { input: { id } },
-                  refetchQueries: [{ query: GET_MEALS }]
-                });
-              }}
-            >
-              Delete
-            </button>
+            <div className="meal-item__edit-group">
+              <button
+                className="edit-button"
+                onClick={e => {
+                  e.preventDefault();
+                  deleteMeal({
+                    variables: { input: { id } },
+                    refetchQueries: [{ query: GET_MEALS }]
+                  });
+                }}
+              >
+                -
+              </button>
+              <button className="edit-button move-up">U</button>
+              <button className="edit-button move-down">D</button>
+            </div>
           )}
         </div>
       )}

@@ -1,0 +1,27 @@
+/*
+$background-shadow: #2c3339;
+$foreground-dark: #33414d;
+$grey: #49555f;
+$background-shadow: #2c3339;
+$main-perrywinkle: #5c6bc6;
+$light: #7d88d0;
+*/
+
+.meal-list {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.edit-meals {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1em;
+}
+
+.edit-meals > button {
+  background: #5c6bc6;
+  border: none;
+  color: white;
+}
