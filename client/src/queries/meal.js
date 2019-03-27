@@ -18,8 +18,8 @@ const CREATE_MEAL = gql`
 `;
 
 const DELETE_MEAL = gql`
-  mutation deleteMeal($id: String!) {
-    deleteMeal(id: $id) {
+  mutation deleteMeal($input: DeleteMealInput!) {
+    deleteMeal(input: $input) {
       meal {
         name
       }

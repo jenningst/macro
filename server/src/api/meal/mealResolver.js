@@ -118,7 +118,7 @@ module.exports = {
       }
       return response;
     },
-    deleteMeal: async function(_, { id }) {
+    deleteMeal: async function(_, { input: { id } }) {
       let response = { meal: null, details: {} };
       try {
         const deletedMeal = await Meal.findByIdAndDelete({ _id: id });

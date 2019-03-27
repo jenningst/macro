@@ -20,7 +20,7 @@ const base = gql`
     deleteFood(input: DeleteFoodInput!): DeleteFoodPayload!
     createMeal(input: CreateMealInput!): CreateMealPayload!
     updateMeal(input: UpdateMealInput!): UpdateMealPayload!
-    deleteMeal(id: String!): DeleteMealPayload!
+    deleteMeal(input: DeleteMealInput!): DeleteMealPayload!
     createServing(input: CreateServingInput!): CreateServingPayload!
     updateServing(input: UpdateServingInput!): UpdateServingPayload!
     deleteServing(input: DeleteServingInput!): DeleteServingPayload!

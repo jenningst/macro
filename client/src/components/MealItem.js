@@ -15,7 +15,7 @@ const MealItem = ({ id, name, isEditable }) => {
               onClick={e => {
                 e.preventDefault();
                 deleteMeal({
-                  variables: { id },
+                  variables: { input: { id } },
                   refetchQueries: [{ query: GET_MEALS }]
                 });
               }}
