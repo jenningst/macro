@@ -2,7 +2,6 @@ import React from "react";
 import FoodItem from "./FoodItem";
 import { Query } from "react-apollo";
 import { GET_FOODS } from "../queries/food";
-import "./styles/FoodItem.css";
 
 const styles = {
   display: "flex",
@@ -24,6 +23,7 @@ const FoodList = () => {
             {data.foods.map((food, index) => (
               <FoodItem
                 key={index}
+                id={food._id}
                 name={food.name}
                 brand={food.brand}
                 variant={food.variant}

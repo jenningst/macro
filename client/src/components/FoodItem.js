@@ -1,7 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Mutation } from "react-apollo";
+import { GET_FOODS, DELETE_FOOD } from "../queries/food";
+import "./styles/FoodItem.css";
 
 const FoodItem = ({
+  id,
   name,
   brand,
   variant,
@@ -13,25 +17,42 @@ const FoodItem = ({
   fats
 }) => {
   return (
-    <div className="food-item">
-      <header className="food-item__name">
-        <p>
-          {name} - {variant}
-        </p>
-        <p>{brand}</p>
-      </header>
-      <footer className="food-item__description">
-        <p>{`${calories} kCals`}</p>
-        <p>
-          {servingSize} {servingUnit}
-        </p>
-      </footer>
-      <aside className="food-item__macros">
-        <p>{`${carbohydrates} C`}</p>
-        <p>{`${proteins} P`}</p>
-        <p>{`${fats} F`}</p>
-      </aside>
-    </div>
+    <Mutation mutation={DELETE_FOOD}>
+      {(deleteFood, { data }) => (
+        <div className="food-item">
+          <header className="food-item__name">
+            <p>
+              {name} - {variant}
+            </p>
+            <p>{brand}</p>
+          </header>
+          <footer className="food-item__description">
+            <p>{`${calories} kCals`}</p>
+            <p>
+              {servingSize} {servingUnit}
+            </p>
+          </footer>
+          <aside className="food-item__macros">
+            <p>{`${carbohydrates} C`}</p>
+            <p>{`${proteins} P`}</p>
+            <p>{`${fats} F`}</p>
+            <button
+              onClick={e => {
+                e.preventDefault();
+                deleteFood({
+                  variables: {
+                    input: { id }
+                  },
+                  refetchQueries: [{ query: GET_FOODS }]
+                });
+              }}
+            >
+              Delete
+            </button>
+          </aside>
+        </div>
+      )}
+    </Mutation>
   );
 };
 
