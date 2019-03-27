@@ -11,6 +11,10 @@ const CreateMeal = () => {
     setName(e.target.value);
   };
 
+  const clearFormInputs = () => {
+    setName("");
+  };
+
   const input = {
     name,
     position: 1, // TODO: remove hard-coding
@@ -28,6 +32,7 @@ const CreateMeal = () => {
                 variables: { input },
                 refetchQueries: [{ query: GET_MEALS }]
               });
+              clearFormInputs();
             }}
           >
             <h1>Create Meal Form</h1>

@@ -83,6 +83,7 @@ const MealList = () => {
               {data.meals.map((meal, index) => (
                 <MealItem
                   key={meal._id}
+                  id={meal._id}
                   name={meal.name}
                   position={index}
                   isEditable={editable}

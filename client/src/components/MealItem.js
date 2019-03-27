@@ -2,14 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./styles/MealItem.css";
 
-const MealItem = ({ name, position, isEditable, remove }) => {
+const MealItem = ({ id, name, position, isEditable, remove }) => {
   const handleClick = () => {
-    remove(parseInt(position));
+    remove(parseInt(id));
   };
 
   return (
     <div className="meal-item">
-      <div className="meal-item__name">{name}</div>
+      <div className="meal-item__name">
+        {name} {id}
+      </div>
       {isEditable && <button onClick={handleClick}>-</button>}
     </div>
   );

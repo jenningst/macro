@@ -49,7 +49,7 @@ const CreateFood = props => {
     }
   };
 
-  const clearInputs = () => {
+  const clearFormInputs = () => {
     setName("");
     setBrand("");
     setVariant("");
@@ -90,6 +90,7 @@ const CreateFood = props => {
                 variables: { input },
                 refetchQueries: [{ query: GET_FOODS }]
               });
+              clearFormInputs();
             }}
           >
             <h1>Create Food Form</h1>
@@ -180,7 +181,7 @@ const CreateFood = props => {
               />
             </label>
             <button type="submit">Create Food</button>
-            <button onClick={clearInputs}>Clear Fields</button>
+            <button onClick={clearFormInputs}>Clear Fields</button>
           </form>
         </div>
       )}
