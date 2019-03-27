@@ -17,6 +17,21 @@ const CREATE_MEAL = gql`
   }
 `;
 
+const DELETE_MEAL = gql`
+  mutation deleteMeal($id: String!) {
+    deleteMeal(id: $id) {
+      meal {
+        name
+      }
+      details {
+        code
+        message
+        success
+      }
+    }
+  }
+`;
+
 const GET_MEALS = gql`
   query meals {
     meals {
@@ -30,4 +45,4 @@ const GET_MEALS = gql`
   }
 `;
 
-export { CREATE_MEAL, GET_MEALS };
+export { CREATE_MEAL, DELETE_MEAL, GET_MEALS };
