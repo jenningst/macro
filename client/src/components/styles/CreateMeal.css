@@ -1,29 +1,15 @@
 .create-meal-form__header {
-  text-align: center;
-  color: white;
+  text-align: left;
+  font-family: "Playfair Display", serif;
+  font-size: 2em;
+  color: #2c3339;
 }
 
-.create-meal-form__input-combo {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1em;
-}
-
-/* default button style */
-button {
-  font-size: 1em;
-  border-radius: 5px;
-  padding: 0.5em;
-}
-
-.edit-button:nth-child(2) {
-  margin: 0 0.25rem 0 0.25rem;
-}
-
-/* default button style */
 .meal-name-input {
-  width: 80%;
-  box-sizing: border-box;
-  padding: 0.5em;
-  font-size: 1em;
+  font-family: "Roboto", sans-serif;
+  width: 100%;
+}
+
+.create-meal-form__form-control:last-child {
+  margin-bottom: 2em;
 }

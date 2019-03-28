@@ -27,26 +27,30 @@ const MealList = () => {
           if (error) return <div>Error: ${error.message}</div>;
           setMeals(data.meals.length);
 
+          if (meals > 0) {
+            return (
+              <div className="meal-list-container">
+                <div className="meal-list">
+                  {data.meals.map((meal, index) => (
+                    <MealItem
+                      key={meal._id}
+                      id={meal._id}
+                      name={meal.name}
+                      position={index}
+                    />
+                  ))}
+                </div>
+                <div className="edit-meals" />
+              </div>
+            );
+          }
           return (
-            <div className="meal-list-container">
-              <div className="meal-list">
-                {data.meals.map((meal, index) => (
-                  <MealItem
-                    key={meal._id}
-                    id={meal._id}
-                    name={meal.name}
-                    position={index}
-                    isEditable={editable}
-                  />
-                ))}
-              </div>
-              <div className="edit-meals">
-                {meals > 0 && (
-                  <button onClick={toggleEditableStatus}>
-                    {editable ? "Save" : "Edit Meals"}
-                  </button>
-                )}
-              </div>
+            <div className="empty-meal-results">
+              <h1 className="header">No Meals Yet!</h1>
+              <p className="message">
+                Enter a new meal name above to setup your daily meals template.
+              </p>
+              <p>Mmmm, we're already getting hungry...</p>
             </div>
           );
         }}

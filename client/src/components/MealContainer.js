@@ -5,8 +5,8 @@ import MealList from "./MealList";
 
 const styles = {
   margin: "1em",
+  padding: "1em",
   width: "50vw",
-  background: "#2c3339",
   display: "flex",
   flexFlow: "column nowrap"
 };
