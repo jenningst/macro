@@ -1,44 +1,58 @@
 .food-item {
   display: grid;
-  grid-template-columns: 1fr 25%;
-  grid-template-rows: repeat(2, 2rem);
-  grid-template-areas:
-    "header aside"
-    "footer aside";
-  width: 300px;
+  grid-template-columns: 1fr 30%;
+  grid-template-areas: "main aside";
+  border-radius: 8px;
+}
+
+p {
+  font-family: "Roboto", sans-serif;
+  margin: 0 0 0 1em;
+}
+
+p[class="heading"] {
+  font-size: 115%;
+  font-weight: 700;
+  margin: 1em;
+}
+
+.food-item main {
+  grid-area: main;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  background: #5c6bc6;
+  color: white;
+}
+
+.food-item main p:last-of-type {
+  margin-bottom: 1em;
+}
+
+aside[class="food-item__macros"] {
+  grid-area: aside;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  display: flex;
+  flex-flow: row nowrap;
+  background: #7d88d0;
+  color: white;
+}
+
+.food-item aside > div[class="macro-group"] {
+  display: flex;
+  flex-flow: column nowrap;
+  flex-grow: 2;
+  justify-content: center;
+  align-items: center;
+}
+
+.food-control-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 1em;
 }
 
 .food-item + .food-item {
   margin-top: 1rem;
-}
-
-header > p {
-  font-size: 0.75rem;
-  margin: 0;
-  padding: 0;
-}
-footer > p {
-  font-size: 0.75rem;
-  margin: 0;
-  padding: 0;
-}
-aside > p {
-  font-size: 0.75rem;
-  margin: 0;
-  padding: 0;
-}
-
-header {
-  grid-area: header;
-  background: lightblue;
-}
-
-footer {
-  grid-area: footer;
-  background: lightcoral;
-}
-
-aside {
-  grid-area: aside;
-  background: lightgoldenrodyellow;
 }

@@ -1,17 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
 import FoodList from "./FoodList";
 import CreateFood from "./CreateFood";
+import "./styles/Containers.css";
 
-const FoodContainer = props => {
+const FoodContainer = () => {
   return (
-    <div>
+    <div className="food-container full-width-container">
       <CreateFood />
       <FoodList />
     </div>
   );
 };
-
-FoodContainer.propTypes = {};
 
 export default FoodContainer;

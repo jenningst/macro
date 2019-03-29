@@ -18,18 +18,18 @@ const MealItem = ({ id, name, isEditable }) => {
           <ListItem>
             <ListItemText primary={name} />
             <ListItemIcon>
-              <IconButton aria-label="Delete">
-                <DeleteOutlinedIcon
-                  color="white"
-                  classes={"edit-button"}
-                  onClick={e => {
-                    e.preventDefault();
-                    deleteMeal({
-                      variables: { input: { id } },
-                      refetchQueries: [{ query: GET_MEALS }]
-                    });
-                  }}
-                />
+              <IconButton
+                aria-label="Delete"
+                color="primary"
+                onClick={e => {
+                  e.preventDefault();
+                  deleteMeal({
+                    variables: { input: { id } },
+                    refetchQueries: [{ query: GET_MEALS }]
+                  });
+                }}
+              >
+                <DeleteOutlinedIcon />
               </IconButton>
             </ListItemIcon>
           </ListItem>

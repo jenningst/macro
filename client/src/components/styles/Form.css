@@ -1,0 +1,34 @@
+/* base form styles */
+.form-wrapper {
+  width: 80%;
+  padding: 2em 1em 1em 1em;
+  margin-bottom: 1em;
+}
+
+.form-header h1 {
+  margin: 0;
+  padding-bottom: 0.5em;
+  text-align: left;
+  font-family: "Playfair Display", serif;
+  font-size: 2em;
+  color: #2c3339;
+}
+
+/* create foods */
+div[class^="control-group__"] {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+div[class~="form-control"] > div[class~="form-control"] {
+  background: lightcoral;
+}
+
+.serving-group {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.serving-group > div[class~="form-control"] {
+  width: 50%;
+}

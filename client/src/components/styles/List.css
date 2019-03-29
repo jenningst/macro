@@ -1,0 +1,9 @@
+/* list styles */
+.list-container {
+  width: 80%;
+}
+
+div[class~="vert-stacked-list"] {
+  display: flex;
+  flex-flow: column nowrap;
+}

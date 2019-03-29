@@ -12,23 +12,30 @@ $pink: #ffb0bd;
 $peach: #fec3a1;
 */
 
-.meal-list {
+/* generic form container styles */
+div[class~="full-width-container"] {
+  margin: 1em;
+  padding: 1em;
   display: flex;
   flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  border: dotted 1px black;
 }
 
-.empty-meal-results {
+/* no results styles */
+.empty-results-div {
   text-align: center;
   width: 100%;
   height: auto;
 }
 
-.empty-meal-results h1 {
+.empty-results-div h1 {
   font-family: "Playfair Display", serif;
   color: #2c3339;
 }
 
-.empty-meal-results p {
+.empty-results-div p {
   font-family: "Roboto", sans-serif;
   color: #8c9197;
 }

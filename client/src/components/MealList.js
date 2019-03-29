@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import MealItem from "./MealItem";
 import { Query } from "react-apollo";
 import { GET_MEALS } from "../queries/meal";
-import "./styles/MealList.css";
+import "./styles/List.css";
 
 const MealList = () => {
   const [isAuthenticated, toggleisAuthenticated] = useState(false);
@@ -29,8 +29,8 @@ const MealList = () => {
 
           if (meals > 0) {
             return (
-              <div className="meal-list-container">
-                <div className="meal-list">
+              <div className="meal-list-container list-container">
+                <div className="meal-list vert-stacked-list">
                   {data.meals.map((meal, index) => (
                     <MealItem
                       key={meal._id}
@@ -40,12 +40,11 @@ const MealList = () => {
                     />
                   ))}
                 </div>
-                <div className="edit-meals" />
               </div>
             );
           }
           return (
-            <div className="empty-meal-results">
+            <div className="empty-results-div">
               <h1 className="header">No Meals Yet!</h1>
               <p className="message">
                 Enter a new meal name above to setup your daily meals template.

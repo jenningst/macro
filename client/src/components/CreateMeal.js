@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Mutation } from "react-apollo";
 import { CREATE_MEAL, GET_MEALS } from "../queries/meal";
 import { TextField } from "@material-ui/core";
-import "./styles/CreateMeal.css";
+import "./styles/Containers.css";
+import "./styles/Form.css";
 
 const CreateMeal = () => {
   // setup local state for form input
@@ -15,19 +16,6 @@ const CreateMeal = () => {
 
   const clearFormInputs = () => {
     setName("");
-  };
-
-  const styles = {
-    cssLabel: {
-      "&$cssFocused": {
-        color: "#5c6bc6"
-      }
-    },
-    cssUnderline: {
-      "&:after": {
-        borderBottomColor: "#5c6bc6"
-      }
-    }
   };
 
   const input = {
@@ -60,17 +48,15 @@ const CreateMeal = () => {
               clearFormInputs();
             }}
           >
-            <p className="create-meal-form__header">Create Your Meals</p>
+            <header className="create-meal-form__header form-header">
+              <h1>Create Your Meals</h1>
+            </header>
             <div className="control-group">
               <div className="create-meal-form__form-control">
                 <TextField
                   id="meal-name-input"
                   label="Enter Meal Name"
                   className="meal-name-input"
-                  classes={{
-                    root: styles.cssLabel,
-                    focused: styles.cssFocused
-                  }}
                   value={name}
                   onChange={handleNameChange}
                 />

@@ -2,7 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { GET_FOODS, DELETE_FOOD } from "../queries/food";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import "./styles/FoodItem.css";
+import { Icon } from "@material-ui/core";
 
 const FoodItem = ({
   id,
@@ -20,35 +23,42 @@ const FoodItem = ({
     <Mutation mutation={DELETE_FOOD}>
       {(deleteFood, { data }) => (
         <div className="food-item">
-          <header className="food-item__name">
+          <main className="food-item__name">
+            <p className="heading">{name}</p>
+            {variant ? (
+              <p className="sub-heading">
+                {brand} - {variant}
+              </p>
+            ) : (
+              <p className="sub-heading">{brand}</p>
+            )}
             <p>
-              {name} - {variant}
+              {`${calories} kCals`} - {servingSize} {servingUnit}
             </p>
-            <p>{brand}</p>
-          </header>
-          <footer className="food-item__description">
-            <p>{`${calories} kCals`}</p>
-            <p>
-              {servingSize} {servingUnit}
-            </p>
-          </footer>
+          </main>
           <aside className="food-item__macros">
-            <p>{`${carbohydrates} C`}</p>
-            <p>{`${proteins} P`}</p>
-            <p>{`${fats} F`}</p>
-            <button
-              onClick={e => {
-                e.preventDefault();
-                deleteFood({
-                  variables: {
-                    input: { id }
-                  },
-                  refetchQueries: [{ query: GET_FOODS }]
-                });
-              }}
-            >
-              Delete
-            </button>
+            <div className="macro-group">
+              <p>{`${carbohydrates} Carbohydrates`}</p>
+              <p>{`${proteins} Proteins`}</p>
+              <p>{`${fats} Fats`}</p>
+            </div>
+            <div className="food-control-group">
+              <IconButton
+                aria-label="Delete"
+                className="delete-food"
+                onClick={e => {
+                  e.preventDefault();
+                  deleteFood({
+                    variables: {
+                      input: { id }
+                    },
+                    refetchQueries: [{ query: GET_FOODS }]
+                  });
+                }}
+              >
+                <DeleteOutlinedIcon />
+              </IconButton>
+            </div>
           </aside>
         </div>
       )}

@@ -1,25 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
 import CreateMeal from "./CreateMeal";
 import MealList from "./MealList";
+import "./styles/MealContainer.css";
 
-const styles = {
-  margin: "1em",
-  padding: "1em",
-  width: "50vw",
-  display: "flex",
-  flexFlow: "column nowrap"
-};
-
-const MealContainer = props => {
+const MealContainer = () => {
   return (
-    <div className="meal-container" style={styles}>
+    <div className="meal-container full-width-container">
       <CreateMeal />
       <MealList />
     </div>
   );
 };
-
-MealContainer.propTypes = {};
 
 export default MealContainer;
