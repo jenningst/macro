@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { Mutation } from "react-apollo";
-import { CREATE_MEAL, GET_MEALS } from "../queries/meal";
+import { CREATE_MEAL, GET_MEALS } from "../../queries/meal";
 import { TextField } from "@material-ui/core";
-import "./styles/Containers.css";
-import "./styles/Form.css";
+import "../styles/Containers.css";
+import "../styles/Form.css";
 
 const CreateMeal = () => {
-  // setup local state for form input
   const [name, setName] = useState("");
-  const [position, setPosition] = useState(0);
 
   const handleNameChange = e => {
     setName(e.target.value);

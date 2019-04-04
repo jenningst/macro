@@ -54,5 +54,5 @@ aside[class="food-item__macros"] {
 }
 
 .food-item + .food-item {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }

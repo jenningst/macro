@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { Mutation } from "react-apollo";
-import { GET_FOODS, CREATE_FOOD } from "../queries/food";
+import { GET_FOODS, CREATE_FOOD } from "../../queries/food";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import "./styles/Containers.css";
-import "./styles/Form.css";
+import "../styles/Containers.css";
+import "../styles/Form.css";
 
 const CreateFood = props => {
-  // setup local state for form input
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
   const [variant, setVariant] = useState("");

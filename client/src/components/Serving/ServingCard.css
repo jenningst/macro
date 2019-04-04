@@ -1,0 +1,27 @@
+ul[class="results"] {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+div[class~="serving-card"] {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+div[class~="card-content"] {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+div[class~="card-details"] {
+  flex-grow: 2;
+}
+
+div[class~="card-actions"] {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}

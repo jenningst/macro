@@ -1,7 +1,7 @@
 import React from "react";
 import CreateMeal from "./CreateMeal";
 import MealList from "./MealList";
-import "./styles/MealContainer.css";
+import "../styles/Containers.css";
 
 const MealContainer = () => {
   return (

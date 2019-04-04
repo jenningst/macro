@@ -1,16 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
-import { DELETE_MEAL, GET_MEALS } from "../queries/meal";
-// material ui components
+import { DELETE_MEAL, GET_MEALS } from "../../queries/meal";
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core/";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import "./styles/MealItem.css";
+import "./MealItem.css";
 
-const styles = {};
-
-const MealItem = ({ id, name, isEditable }) => {
+const MealItem = ({ id, name }) => {
   return (
     <Mutation mutation={DELETE_MEAL}>
       {(deleteMeal, { data }) => (

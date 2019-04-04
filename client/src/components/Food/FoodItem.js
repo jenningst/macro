@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
-import { GET_FOODS, DELETE_FOOD } from "../queries/food";
+import { GET_FOODS, DELETE_FOOD } from "../../queries/food";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import "./styles/FoodItem.css";
-import { Icon } from "@material-ui/core";
+import "./FoodItem.css";
 
 const FoodItem = ({
   id,
